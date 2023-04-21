@@ -14,7 +14,14 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@store-apis/data-sources": ["libs/data-sources/src/index.ts"],
+      "@store-apis/domains": ["libs/domains/src/index.ts"],
+      "@store-apis/repositories": ["libs/repositories/src/index.ts"],
+      "@store-apis/repositories/log": ["libs/repositories/src/lib/log/index.ts"],
+      "@store-apis/domains/log": ["libs/domains/src/lib/log/index.ts"],
+      "@store-apis/data-sources/log": ["libs/data-sources/src/lib/log/index.ts"],
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
