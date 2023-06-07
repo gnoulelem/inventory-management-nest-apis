@@ -1,3 +1,3 @@
 export { Log } from './entity/log.entity';
 
-export { ILog } from './interface/log.interface';
+export { ILog, ILogAgent, ILogMetada } from './interface/log.interface';

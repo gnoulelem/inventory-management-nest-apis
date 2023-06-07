@@ -5,8 +5,9 @@ import { ILogRepository } from '@store-apis/repositories/log';
 export class AppService {
   constructor(private readonly logRepository: ILogRepository) {}
 
+ 
   getData(): { message: string } {
-    this.logRepository.create({ id: 'LogNewId' });
+    //this.logRepository.create({ id: 'LogNewId' });
     return { message: 'Hello API' };
   }
 }
