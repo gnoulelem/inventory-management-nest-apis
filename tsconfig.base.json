@@ -6,6 +6,7 @@
     "declaration": false,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "es2015",
@@ -16,12 +17,19 @@
     "baseUrl": ".",
     "paths": {
       "@store-apis/data-sources": ["libs/data-sources/src/index.ts"],
+      "@store-apis/data-sources/auth": [
+        "libs/data-sources/src/lib/auth/index.ts"
+      ],
       "@store-apis/data-sources/log": [
         "libs/data-sources/src/lib/log/index.ts"
       ],
       "@store-apis/domains": ["libs/domains/src/index.ts"],
+      "@store-apis/domains/auth": ["libs/domains/src/lib/auth/index.ts"],
       "@store-apis/domains/log": ["libs/domains/src/lib/log/index.ts"],
       "@store-apis/repositories": ["libs/repositories/src/index.ts"],
+      "@store-apis/repositories/auth": [
+        "libs/repositories/src/lib/auth/index.ts"
+      ],
       "@store-apis/repositories/log": ["libs/repositories/src/lib/log/index.ts"]
     }
   },
