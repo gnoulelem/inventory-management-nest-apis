@@ -2,7 +2,12 @@
   "name": "store-apis",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "start": "npx nx serve",
+    "lint": "npx nx lint",
+    "test": "npx nx test",
+    "build": "npx nx build"
+  },
   "private": true,
   "dependencies": {
     "@nestjs/common": "10.1.2",
