@@ -37,7 +37,7 @@ jobs:
       - name: Create artifact zip archive
         run: zip artifact.zip -r artifact
 
-      - name: Copy artifact archive to server and launch services
+      - name: Copy artifact archive to server
         uses: cross-the-world/ssh-scp-ssh-pipelines@v1.1.4
         with:
           host: ${{ secrets.DEV_SERVER_HOST }}
@@ -46,7 +46,3 @@ jobs:
           pass: ${{ secrets.DEV_SERVER_PASSWORD }}
           scp: |
             ./artifact.zip => /home/mainuser/artifacts/store-gateway/
-          last_ssh: |
-            cd artifacts/store-gateway &&
-            unzip artifact.zip -d ../../apps/store-gateway &&
-            docker compose -f dev.docker-compose.yml up -d
