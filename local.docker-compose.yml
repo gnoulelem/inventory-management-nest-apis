@@ -10,6 +10,8 @@ services:
 
   store-gateway:
     image: node:18-alpine
+    logging:
+      driver: gcplogs
     command: sh -c "yarn start store-gateway"
     ports:
       - 3000:3000
