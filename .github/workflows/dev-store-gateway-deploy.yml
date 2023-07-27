@@ -6,11 +6,10 @@ on:
 
 env:
   NODE_VERSION: '18.x'
-  OS: ubuntu-latest
 
 jobs:
   deploy:
-    runs-on: ${{ env.OS }}
+    runs-on: ubuntu-latest
     steps:
       - name: Check out code
         uses: actions/checkout@v2
