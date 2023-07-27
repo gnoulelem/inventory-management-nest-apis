@@ -1,0 +1,53 @@
+name: Dev Store Gateway Deploy
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '18.x'
+  OS: ubuntu-latest
+
+jobs:
+  deploy:
+    runs-on: ${{ env.OS }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install yarn
+        run: npm install -g yarn
+
+      - name: Install npm dependencies
+        run: yarn
+
+      - name: Build store-gateway
+        run: yarn build store-gateway
+
+      - name: Create artifact folder
+        run: mkdir artifact && mv "node_modules" "artifact/node_modules" && mv "dist" "artifact/dist" && mv "dev.docker-compose.yml" "artifact"
+
+      - name: Create artifact zip archive
+        run: zip artifact.zip -r artifact
+
+      - name: Copy artifact archive to server and launch services
+        uses: cross-the-world/ssh-scp-ssh-pipelines@v1.1.4
+        with:
+          host: ${{ secrets.DEV_SERVER_HOST }}
+          port: ${{ secrets.DEV_SERVER_PORT }}
+          user: ${{ secrets.DEV_SERVER_USER }}
+          pass: ${{ secrets.DEV_SERVER_PASSWORD }}
+          scp: |
+            ./artifact.zip => /home/mainuser/artifacts/store-gateway/
+          last_ssh: |
+            cd artifacts/store-gateway &&
+            unzip artifact.zip -d ../../apps/store-gateway &&
+            docker compose -f dev.docker-compose.yml up -d
