@@ -2,6 +2,8 @@ services:
 
   store-gateway:
     image: node:18-alpine
+    env_file:
+      - .env
     logging:
       driver: gcplogs
       options:
