@@ -1,13 +1,21 @@
-import firebaseAdmin from "firebase-admin";
-import { Module } from "@nestjs/common";
-import { FirebaseAdminAuth } from "./provider/auth.provider";
+import firebaseAdmin from 'firebase-admin';
+import { DynamicModule, Module } from '@nestjs/common';
+import { FirebaseAdminAuth } from './provider/auth.provider';
+import { ModuleInit } from './core/module.init';
 
-@Module({
-    providers: [
+@Module({})
+export class AuthDataSourceModule {
+  static register(): DynamicModule {
+    ModuleInit.init();
+    return {
+      module: AuthDataSourceModule,
+      providers: [
         {
-            provide: FirebaseAdminAuth,
-            useFactory: (): FirebaseAdminAuth => firebaseAdmin.auth()
-        }
-    ]
-})
-export class AuthDataSourceModule {}
+          provide: FirebaseAdminAuth,
+          useFactory: (): FirebaseAdminAuth => firebaseAdmin.auth(),
+        },
+      ],
+      exports: [FirebaseAdminAuth],
+    };
+  }
+}

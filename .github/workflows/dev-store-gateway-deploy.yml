@@ -31,8 +31,18 @@ jobs:
       - name: Build store-gateway
         run: yarn build store-gateway
 
+      - name: Create environment variables file
+        run: |
+          touch .env &&
+          echo "FIREBASE_PROJECT_ID=${{ secrets.DEV_FIREBASE_PROJECT_ID }}\nFIREBASE_CLIENT_EMAIL=${{ secrets.DEV_FIREBASE_CLIENT_EMAIL }}\nFIREBASE_PRIVATE_KEY=${{ secrets.DEV_FIREBASE_PRIVATE_KEY }}" >> .env
+
       - name: Create artifact folder
-        run: mkdir artifact && mv "node_modules" "artifact/node_modules" && mv "dist" "artifact/dist" && mv "dev.docker-compose.yml" "artifact"
+        run: |
+          mkdir artifact &&
+          mv "node_modules" "artifact/node_modules" &&
+          mv "dist" "artifact/dist" &&
+          mv "dev.docker-compose.yml" "artifact" &&
+          mv ".env" "artifact"
 
       - name: Create artifact zip archive
         run: zip artifact.zip -r artifact

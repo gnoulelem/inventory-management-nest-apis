@@ -21,6 +21,7 @@ export class AppService {
         location: '',
       },
     });
+
     console.log(log);
     return { message: 'Hello API' };
   }

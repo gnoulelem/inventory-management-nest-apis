@@ -1,3 +1,3 @@
-import { IUser } from "@store-apis/domains/auth"
+import { IUser } from '@store-apis/domains/auth';
 
-export type TCreateUser = IUser
+export type TCreateUser = Pick<IUser, 'phoneNumber'>;
