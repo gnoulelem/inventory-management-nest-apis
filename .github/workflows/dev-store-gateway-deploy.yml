@@ -32,9 +32,13 @@ jobs:
         run: yarn build store-gateway
 
       - name: Create environment variables file
-        run: |
-          touch .env &&
-          echo "FIREBASE_PROJECT_ID=${{ secrets.DEV_FIREBASE_PROJECT_ID }}\nFIREBASE_CLIENT_EMAIL=${{ secrets.DEV_FIREBASE_CLIENT_EMAIL }}\nFIREBASE_PRIVATE_KEY=${{ secrets.DEV_FIREBASE_PRIVATE_KEY }}" >> .env
+        uses: SpicyPizza/create-envfile@v2.0
+        with:
+            envkey_DEBUG: true
+            envkey_FIREBASE_PROJECT_ID: ${{ secrets.DEV_FIREBASE_PROJECT_ID }}
+            envkey_FIREBASE_CLIENT_EMAIL: ${{ secrets.DEV_FIREBASE_CLIENT_EMAIL }}
+            envkey_FIREBASE_PRIVATE_KEY: ${{ secrets.DEV_FIREBASE_PRIVATE_KEY }}
+            file_name: .env
 
       - name: Create artifact folder
         run: |
