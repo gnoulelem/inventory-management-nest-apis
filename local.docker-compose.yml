@@ -10,7 +10,9 @@ services:
 
   store-gateway:
     image: node:18-alpine
-    command: sh -c "yarn start store-gateway"
+    env_file:
+      - .env
+    command: sh -c "yarn && yarn start store-gateway"
     ports:
       - 3000:3000
     working_dir: /store-apis

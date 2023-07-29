@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { IAuthRepository } from '@store-apis/repositories/auth';
+import { IAuthRepository, TGetToken } from '@store-apis/repositories/auth';
 import { TCreateUser } from '@store-apis/repositories/auth';
 import { auth } from 'firebase-admin';
 import UserRecord = auth.UserRecord;
@@ -10,5 +10,9 @@ export class AuthService {
 
   async signUp({ phoneNumber }: TCreateUser): Promise<UserRecord> {
     return this.authRepository.createUser({ phoneNumber });
+  }
+
+  async getToken({ uid }: TGetToken): Promise<void> {
+    await this.authRepository.generateCustomToken(uid);
   }
 }
