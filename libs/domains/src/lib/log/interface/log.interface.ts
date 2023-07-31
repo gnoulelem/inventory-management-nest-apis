@@ -2,11 +2,11 @@ export interface ILog {
   readonly id: string;
   readonly entityId: string;
   readonly activity: string;
-  readonly metadata: ILogMetada;
+  readonly metadata: ILogMetadata;
   readonly agent: ILogAgent;
 }
 
-export interface ILogMetada {
+export interface ILogMetadata {
   readonly time: number;
 }
 

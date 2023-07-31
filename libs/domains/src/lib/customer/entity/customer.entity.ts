@@ -1,6 +1,6 @@
-import { IUser } from '../interface/auth.interface';
+import { ICustomer } from '../interface/customer.interface';
 
-export class User implements IUser {
+export class Customer implements ICustomer {
   readonly disabled: boolean;
   readonly displayName: string;
   readonly email: string;

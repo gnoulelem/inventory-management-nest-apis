@@ -1,10 +1,10 @@
-import { ILog, ILogMetada, ILogAgent } from '../interface/log.interface';
+import { ILog, ILogMetadata, ILogAgent } from '../interface/log.interface';
 
 export class Log implements ILog {
   id: string;
   entityId: string;
   activity: string;
-  metadata: ILogMetada;
+  metadata: ILogMetadata;
   agent: ILogAgent;
 
   constructor(entityLike: ILog) {
