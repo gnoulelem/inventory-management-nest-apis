@@ -6,9 +6,9 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { ILog, ILogMetada, ILogAgent } from '@store-apis/domains/log';
+import { ILog, ILogMetadata, ILogAgent } from '@store-apis/domains/log';
 
-class LogMetadataDto implements ILogMetada {
+class LogMetadataDto implements ILogMetadata {
   @IsNumber()
   @IsNotEmpty()
   time: number;

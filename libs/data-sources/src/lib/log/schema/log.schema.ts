@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
-import { ILog, ILogAgent, ILogMetada } from '@store-apis/domains/log';
+import { ILog, ILogAgent, ILogMetadata } from '@store-apis/domains/log';
 
 export type LogDocument = HydratedDocument<Log>;
 
@@ -9,7 +9,7 @@ export type LogDocument = HydratedDocument<Log>;
   _id: false,
   versionKey: false,
 })
-class LogMetadata implements ILogMetada {
+class LogMetadata implements ILogMetadata {
   @Prop({ required: true })
   time: number;
 }
@@ -58,7 +58,7 @@ export class Log implements ILog {
   activity: string;
 
   @Prop({ required: true, type: LogMetadata })
-  metadata: ILogMetada;
+  metadata: ILogMetadata;
 
   @Prop({ required: true, type: LogAgent })
   agent: ILogAgent;

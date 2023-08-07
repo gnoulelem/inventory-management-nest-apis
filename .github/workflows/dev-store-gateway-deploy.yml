@@ -41,6 +41,7 @@ jobs:
             envkey_CUSTOMER_FIREBASE_PROJECT_ID: ${{ secrets.DEV_CUSTOMER_FIREBASE_PROJECT_ID }}
             envkey_CUSTOMER_FIREBASE_CLIENT_EMAIL: ${{ secrets.DEV_CUSTOMER_FIREBASE_CLIENT_EMAIL }}
             envkey_CUSTOMER_FIREBASE_PRIVATE_KEY: ${{ secrets.DEV_CUSTOMER_FIREBASE_PRIVATE_KEY }}
+            envkey_MONGODB_STORE_CLUSTER_CONNECTION_STRING: ${{ secrets.DEV_MONGODB_STORE_CLUSTER_CONNECTION_STRING }}
             file_name: .env
 
       - name: Create artifact folder
