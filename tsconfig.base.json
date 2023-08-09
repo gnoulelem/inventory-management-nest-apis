@@ -53,6 +53,9 @@
       ],
       "@store-apis/repositories/batchproduct": [
         "libs/repositories/src/lib/batchproduct/index.ts"
+      ],
+      "@store-apis/repositories/shared": [
+        "libs/repositories/src/lib/shared/index.ts"
       ]
     }
   },

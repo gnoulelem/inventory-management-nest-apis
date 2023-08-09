@@ -8,6 +8,7 @@ import {
   Delete,
   Query,
   UseGuards,
+  Request,
 } from '@nestjs/common';
 import { v4 as uuidV4 } from 'uuid';
 import {
@@ -22,6 +23,7 @@ import { BatchProductService } from '../../../service/batchproduct.service';
 import { ModifyResult } from 'mongodb';
 import { AuthGuard } from '@store-apis/repositories/auth';
 import { DeleteBatchProductDto } from '@store-apis/domains/batchproduct';
+import { GCPLogging } from '@store-apis/repositories/shared';
 
 @Controller('v1/batchproduct')
 export class BatchProductController {
@@ -29,6 +31,7 @@ export class BatchProductController {
 
   @Post('/')
   @UseGuards(AuthGuard)
+  @GCPLogging
   async store(
     @Body() createBatchProductBody: CreateBatchProductDto,
     @Ip() ipAddress: string
@@ -54,6 +57,7 @@ export class BatchProductController {
 
   @Put('/')
   @UseGuards(AuthGuard)
+  @GCPLogging
   async update(
     @Body() updateBatchProductBody: UpdateBatchProductDto,
     @Ip() ipAddress: string
@@ -71,6 +75,7 @@ export class BatchProductController {
 
   @Delete('/')
   @UseGuards(AuthGuard)
+  @GCPLogging
   async delete(
     @Body() deleteBatchProductBody: DeleteBatchProductDto,
     @Ip() ipAddress: string
@@ -91,13 +96,19 @@ export class BatchProductController {
 
   @Get('/available')
   @UseGuards(AuthGuard)
-  async showAvailable(@Query('store') store: string): Promise<IBatchProduct[]> {
+  @GCPLogging
+  async showAvailable(
+    @Request() _request: Request,
+    @Query('store') store: string
+  ): Promise<IBatchProduct[]> {
     return this.batchProductService.findAvailableBatchProduct(store);
   }
 
   @Get('/search')
   @UseGuards(AuthGuard)
+  @GCPLogging
   async searchAvailable(
+    @Request() _request: Request,
     @Query('store') store: string,
     @Query('query') query: string
   ): Promise<IBatchProduct[]> {
