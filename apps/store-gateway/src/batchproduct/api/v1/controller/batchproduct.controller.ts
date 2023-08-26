@@ -9,6 +9,7 @@ import {
   Query,
   UseGuards,
   Request,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { v4 as uuidV4 } from 'uuid';
 import {
@@ -99,9 +100,10 @@ export class BatchProductController {
   @GCPLogging
   async showAvailable(
     @Request() _request: Request,
-    @Query('store') store: string
+    @Query('store') store: string,
+    @Query('skipValue', ParseIntPipe) skipValue: number
   ): Promise<IBatchProduct[]> {
-    return this.batchProductService.findAvailableBatchProduct(store);
+    return this.batchProductService.findAvailableBatchProduct(store, skipValue);
   }
 
   @Get('/search')

@@ -61,7 +61,10 @@ export class BatchProductRepository implements IBatchProductRepository {
       );
   }
 
-  findAvailable(storeAlias: string): Promise<IBatchProduct[]> {
+  findAvailable(
+    storeAlias: string,
+    skipValue: number
+  ): Promise<IBatchProduct[]> {
     return this.batchProductProvider
       .collection<IBatchProduct>(storeAlias)
       .find({
@@ -76,6 +79,8 @@ export class BatchProductRepository implements IBatchProductRepository {
           { deletion: { $exists: false } },
         ],
       })
+      .skip(skipValue)
+      .limit(50)
       .toArray();
   }
 

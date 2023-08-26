@@ -19,7 +19,10 @@ export abstract class IBatchProductRepository {
     entityLike: TDeleteBatchProduct
   ): Promise<ModifyResult<IBatchProduct>>;
 
-  abstract findAvailable(storeAlias: string): Promise<IBatchProduct[]>;
+  abstract findAvailable(
+    storeAlias: string,
+    skipValue: number
+  ): Promise<IBatchProduct[]>;
 
   abstract searchAvailable(
     storeAlias: string,

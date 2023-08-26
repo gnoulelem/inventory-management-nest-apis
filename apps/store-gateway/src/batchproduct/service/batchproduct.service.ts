@@ -46,12 +46,13 @@ export class BatchProductService {
   }
 
   async findAvailableBatchProduct(
-    storeAlias: string
+    storeAlias: string,
+    skipValue: number
   ): Promise<IBatchProduct[]> {
     try {
-      return this.batchProductRepository.findAvailable(storeAlias);
+      return this.batchProductRepository.findAvailable(storeAlias, skipValue);
     } catch (error: unknown) {
-      console.error('Error in updating a BatchProduct', error);
+      console.error('Error in finding a BatchProduct', error);
       throw error;
     }
   }
