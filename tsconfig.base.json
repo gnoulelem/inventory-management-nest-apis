@@ -29,6 +29,9 @@
       "@store-apis/data-sources/batchproduct": [
         "libs/data-sources/src/lib/batchproduct/index.ts"
       ],
+      "@store-apis/data-sources/employee": [
+        "libs/data-sources/src/lib/employee/index.ts"
+      ],
       "@store-apis/domains": ["libs/domains/src/index.ts"],
       "@store-apis/domains/auth": ["libs/domains/src/lib/auth/index.ts"],
       "@store-apis/domains/log": ["libs/domains/src/lib/log/index.ts"],
@@ -40,6 +43,9 @@
       ],
       "@store-apis/domains/shared": [
         "libs/domains/src/lib/shared/index.ts"
+      ],
+      "@store-apis/domains/employee": [
+        "libs/domains/src/lib/employee/index.ts"
       ],
       "@store-apis/repositories": ["libs/repositories/src/index.ts"],
       "@store-apis/repositories/auth": [
@@ -56,6 +62,9 @@
       ],
       "@store-apis/repositories/shared": [
         "libs/repositories/src/lib/shared/index.ts"
+      ],
+      "@store-apis/repositories/employee": [
+        "libs/repositories/src/lib/employee/index.ts"
       ]
     }
   },
