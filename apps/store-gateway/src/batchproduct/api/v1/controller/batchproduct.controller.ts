@@ -34,6 +34,7 @@ export class BatchProductController {
   @UseGuards(AuthGuard)
   @GCPLogging
   async store(
+    @Request() _request: Request,
     @Body() createBatchProductBody: CreateBatchProductDto,
     @Ip() ipAddress: string
   ): Promise<void> {
@@ -60,6 +61,7 @@ export class BatchProductController {
   @UseGuards(AuthGuard)
   @GCPLogging
   async update(
+    @Request() _request: Request,
     @Body() updateBatchProductBody: UpdateBatchProductDto,
     @Ip() ipAddress: string
   ): Promise<ModifyResult<IBatchProduct>> {

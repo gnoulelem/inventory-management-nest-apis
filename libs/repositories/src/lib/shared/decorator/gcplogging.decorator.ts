@@ -11,7 +11,7 @@ export function GCPLogging(
     const request = args[0] as Request;
     const user = args[0].user as IUser;
     console.log(
-      `Incoming request: ${request.method} ${request.url} | User: ${user.uid}`
+      `Incoming request: ${request.method} ${request.url} | User: ${user?.uid}`
     );
 
     console.time(propertyKey);
