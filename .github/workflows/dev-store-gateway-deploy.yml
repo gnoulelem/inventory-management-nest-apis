@@ -64,3 +64,22 @@ jobs:
           pass: ${{ secrets.DEV_SERVER_PASSWORD }}
           scp: |
             ./artifact.zip => /home/mainuser/artifacts/store-gateway/
+
+      - name: Start server
+        uses: nekiro/ssh-job@v1.0.3
+        with:
+          host: ${{ secrets.DEV_SERVER_HOST }}
+          port: ${{ secrets.DEV_SERVER_PORT }}
+          user: ${{ secrets.DEV_SERVER_USER }}
+          password: ${{ secrets.DEV_SERVER_PASSWORD }}
+          command: |
+            cd /home/mainuser/apps/store-gateway/artifact
+            docker compose -f dev.docker-compose.yml down
+            cd ..
+            rm -rf artifact
+            cd /home/mainuser/artifacts/store-gateway
+            unzip artifact.zip -d /home/mainuser/apps/store-gateway
+            cd /home/mainuser/apps/store-gateway/artifact
+            docker compose -f dev.docker-compose.yml up -d
+
+
