@@ -9,7 +9,7 @@ import { InsertOneResult, ModifyResult } from 'mongodb';
 export abstract class IBatchProductRepository {
   abstract create(
     entityLike: TCreateBatchProduct
-  ): Promise<InsertOneResult<Document>>;
+  ): Promise<InsertOneResult<TCreateBatchProduct>>;
 
   abstract update(
     entityLike: TUpdateBatchProduct

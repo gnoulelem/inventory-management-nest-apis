@@ -6,7 +6,7 @@ import {
   TUpdateBatchProduct,
 } from '@store-apis/domains/batchproduct';
 import { Injectable } from '@nestjs/common';
-import { ModifyResult } from 'mongodb';
+import { ModifyResult, InsertOneResult } from 'mongodb';
 
 @Injectable()
 export class BatchProductService {
@@ -14,9 +14,11 @@ export class BatchProductService {
     private readonly batchProductRepository: IBatchProductRepository
   ) {}
 
-  async createBatchProduct(entityLike: TCreateBatchProduct): Promise<void> {
+  async createBatchProduct(
+    entityLike: TCreateBatchProduct
+  ): Promise<InsertOneResult<IBatchProduct>> {
     try {
-      await this.batchProductRepository.create(entityLike);
+      return await this.batchProductRepository.create(entityLike);
     } catch (error: unknown) {
       console.error('Error in creating a BatchProduct', error);
       throw error;

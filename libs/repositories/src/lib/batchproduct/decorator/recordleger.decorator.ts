@@ -15,14 +15,18 @@ export function RecordLeger(
         | TCreateBatchProduct
         | TUpdateBatchProduct
         | TDeleteBatchProduct
-    ) => Promise<InsertOneResult<Document> | ModifyResult<IBatchProduct>>
+    ) => Promise<
+      InsertOneResult<TCreateBatchProduct> | ModifyResult<IBatchProduct>
+    >
   >
 ): void {
   const originalMethod = descriptor.value;
 
   descriptor.value = async function (
     ...args: any[]
-  ): Promise<InsertOneResult<Document> | ModifyResult<IBatchProduct>> {
+  ): Promise<
+    InsertOneResult<TCreateBatchProduct> | ModifyResult<IBatchProduct>
+  > {
     try {
       const result = await originalMethod.apply(this, args);
       const actualEntry = await this.batchProductProvider

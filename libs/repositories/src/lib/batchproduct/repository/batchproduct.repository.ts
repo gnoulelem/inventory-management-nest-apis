@@ -21,9 +21,11 @@ export class BatchProductRepository implements IBatchProductRepository {
   ) {}
 
   @RecordLeger
-  create(entityLike: TCreateBatchProduct): Promise<InsertOneResult<Document>> {
+  create(
+    entityLike: TCreateBatchProduct
+  ): Promise<InsertOneResult<TCreateBatchProduct>> {
     return this.batchProductProvider
-      .collection(entityLike.store.alias)
+      .collection<TCreateBatchProduct>(entityLike.store.alias)
       .insertOne(entityLike);
   }
 
@@ -80,6 +82,7 @@ export class BatchProductRepository implements IBatchProductRepository {
         ],
       })
       .skip(skipValue)
+      .sort({ createdAt: -1 })
       .limit(50)
       .toArray();
   }

@@ -1,7 +1,6 @@
 import {
   Body,
   Controller,
-  Ip,
   Post,
   Put,
   Get,
@@ -11,6 +10,7 @@ import {
   Request,
   ParseIntPipe,
 } from '@nestjs/common';
+import { RealIP } from 'nestjs-real-ip';
 import { v4 as uuidV4 } from 'uuid';
 import {
   CreateBatchProductDto,
@@ -21,7 +21,7 @@ import {
   UpdateBatchProductDto,
 } from '@store-apis/domains/batchproduct';
 import { BatchProductService } from '../../../service/batchproduct.service';
-import { ModifyResult } from 'mongodb';
+import { ModifyResult, InsertOneResult } from 'mongodb';
 import { AuthGuard } from '@store-apis/repositories/auth';
 import { DeleteBatchProductDto } from '@store-apis/domains/batchproduct';
 import { GCPLogging } from '@store-apis/repositories/shared';
@@ -36,8 +36,8 @@ export class BatchProductController {
   async store(
     @Request() _request: Request,
     @Body() createBatchProductBody: CreateBatchProductDto,
-    @Ip() ipAddress: string
-  ): Promise<void> {
+    @RealIP() ipAddress: string
+  ): Promise<InsertOneResult<IBatchProduct>> {
     const batchProduct: TCreateBatchProduct & {
       createdAt: number;
       updatedAt: number;
@@ -54,7 +54,7 @@ export class BatchProductController {
       updatedAt: Date.now(),
       createdAt: Date.now(),
     };
-    await this.batchProductService.createBatchProduct(batchProduct);
+    return await this.batchProductService.createBatchProduct(batchProduct);
   }
 
   @Put('/')
@@ -63,7 +63,7 @@ export class BatchProductController {
   async update(
     @Request() _request: Request,
     @Body() updateBatchProductBody: UpdateBatchProductDto,
-    @Ip() ipAddress: string
+    @RealIP() ipAddress: string
   ): Promise<ModifyResult<IBatchProduct>> {
     const batchProduct: TUpdateBatchProduct = {
       ...updateBatchProductBody,
@@ -80,9 +80,10 @@ export class BatchProductController {
   @UseGuards(AuthGuard)
   @GCPLogging
   async delete(
+    @Request() _request: Request,
     @Body() deleteBatchProductBody: DeleteBatchProductDto,
-    @Ip() ipAddress: string
-  ): Promise<ModifyResult<IBatchProduct>> {
+    @RealIP() ipAddress: string
+  ): Promise<{ id: string }> {
     const batchProduct: TDeleteBatchProduct = {
       ...deleteBatchProductBody,
       meta: {
@@ -94,7 +95,11 @@ export class BatchProductController {
         deletedAt: Date.now(),
       },
     };
-    return this.batchProductService.deleteBatchProduct(batchProduct);
+    delete batchProduct['_id'];
+    await this.batchProductService.deleteBatchProduct(batchProduct);
+    return {
+      id: deleteBatchProductBody.id,
+    };
   }
 
   @Get('/available')
