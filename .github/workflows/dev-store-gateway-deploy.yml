@@ -68,7 +68,7 @@ jobs:
           host: ${{ secrets.DEV_SERVER_HOST }}
           port: ${{ secrets.DEV_SERVER_PORT }}
           user: ${{ secrets.DEV_SERVER_USER }}
-          password: ${{ secrets.DEV_SERVER_PASSWORD }}
+          key: ${{ secrets.DEV_SERVER_KEY }}
           command: |
             cd /home/ubuntu/apps/store-gateway/artifact
             docker compose -f dev.docker-compose.yml down
