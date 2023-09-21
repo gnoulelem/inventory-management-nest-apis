@@ -71,12 +71,12 @@ jobs:
           key: ${{ secrets.DEV_SERVER_KEY }}
           command: |
             cd /home/ubuntu/apps/store-gateway/artifact
-            docker compose -f dev.docker-compose.yml down
+            sudo docker compose -f dev.docker-compose.yml down
             cd ..
             rm -rf artifact
             cd /home/ubuntu/artifacts/store-gateway
             unzip artifact.zip -d /home/ubuntu/apps/store-gateway
             cd /home/ubuntu/apps/store-gateway/artifact
-            docker compose -f dev.docker-compose.yml up -d
+            sudo docker compose -f dev.docker-compose.yml up -d
 
 
