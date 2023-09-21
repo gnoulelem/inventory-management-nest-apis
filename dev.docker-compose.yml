@@ -5,9 +5,10 @@ services:
     env_file:
       - .env
     logging:
-      driver: gcplogs
+      driver: awslogs
       options:
-        gcp-project: "quid-labs"
+        awslogs-region: us-east-1
+        awslogs-group: quid-dev-log-group-store-apis-us-east-1
     command: sh -c "cd dist/apps/store-gateway && node main"
     ports:
       - 3000:3000
