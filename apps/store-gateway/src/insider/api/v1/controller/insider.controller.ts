@@ -9,8 +9,8 @@ export class InsiderController {
   constructor(private readonly insiderService: InsiderService) {}
 
   @Get('/:phoneNumber')
-  // @UseGuards(AuthGuard)
-  // @GCPLogging
+  @UseGuards(AuthGuard)
+  @GCPLogging
   getOrCreate(
     @Request() _request: Request,
     @Param('phoneNumber') phoneNumber: string

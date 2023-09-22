@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { catchError, lastValueFrom } from 'rxjs';
+import { catchError, firstValueFrom } from 'rxjs';
 import { UserRecord } from 'firebase-admin/lib/auth';
 import { AxiosError } from 'axios';
 
@@ -17,7 +17,7 @@ export class InsiderService {
   }
 
   private async get(phoneNumber: string): Promise<UserRecord> {
-    const { data } = await lastValueFrom(
+    const { data } = await firstValueFrom(
       this.httpService
         .get<UserRecord>(
           `${process.env.INSIDERS_API_BASE_URL}/insider/${phoneNumber}`
@@ -33,7 +33,7 @@ export class InsiderService {
   }
 
   private async create(phoneNumber: string): Promise<UserRecord> {
-    const { data } = await lastValueFrom(
+    const { data } = await firstValueFrom(
       this.httpService
         .post<UserRecord>(`${process.env.INSIDERS_API_BASE_URL}/insider`, {
           phoneNumber,
