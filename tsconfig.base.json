@@ -32,6 +32,9 @@
       "@store-apis/data-sources/employee": [
         "libs/data-sources/src/lib/employee/index.ts"
       ],
+      "@store-apis/data-sources/sale": [
+        "libs/data-sources/src/lib/sale/index.ts"
+      ],
       "@store-apis/domains": ["libs/domains/src/index.ts"],
       "@store-apis/domains/auth": ["libs/domains/src/lib/auth/index.ts"],
       "@store-apis/domains/log": ["libs/domains/src/lib/log/index.ts"],
@@ -46,6 +49,9 @@
       ],
       "@store-apis/domains/employee": [
         "libs/domains/src/lib/employee/index.ts"
+      ],
+      "@store-apis/domains/sale": [
+        "libs/domains/src/lib/sale/index.ts"
       ],
       "@store-apis/repositories": ["libs/repositories/src/index.ts"],
       "@store-apis/repositories/auth": [
@@ -65,6 +71,9 @@
       ],
       "@store-apis/repositories/employee": [
         "libs/repositories/src/lib/employee/index.ts"
+      ],
+      "@store-apis/repositories/sale": [
+        "libs/repositories/src/lib/sale/index.ts"
       ]
     }
   },

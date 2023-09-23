@@ -3,13 +3,11 @@ import {
   IBatch,
   IBatchProductMetadata,
   IProduct,
-  IStore,
   IStoreKeeper,
 } from '../interface/batchproduct.interface';
 import {
   IsBoolean,
   IsDefined,
-  IsIP,
   IsISO4217CurrencyCode,
   IsNotEmptyObject,
   IsNumber,
@@ -19,6 +17,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
+import { IStore } from '../../shared/interface/store.interface';
 
 abstract class BatchDto implements IBatch {
   @IsOptional()
@@ -92,7 +91,7 @@ abstract class StoreKeeperDto implements IStoreKeeper {
   readonly uid: string;
 }
 
-abstract class StoreDto implements IStore {
+abstract class StoreDto implements Pick<IStore, 'alias'> {
   @IsString()
   readonly alias: string;
 }

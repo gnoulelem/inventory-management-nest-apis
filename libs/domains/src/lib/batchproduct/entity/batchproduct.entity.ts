@@ -4,9 +4,9 @@ import {
   IBatchProductMetadata,
   IProduct,
   IStoreKeeper,
-  IStore,
   IBatchProductItem,
 } from '../interface/batchproduct.interface';
+import { IStore } from '../../shared/interface/store.interface';
 
 export class BatchProduct implements IBatchProduct {
   readonly _id: string;
@@ -15,7 +15,7 @@ export class BatchProduct implements IBatchProduct {
   readonly meta: IBatchProductMetadata;
   readonly product: IProduct;
   readonly storeKeeper: IStoreKeeper;
-  readonly store: IStore;
+  readonly store: Pick<IStore, 'alias'>;
   readonly items: IBatchProductItem[];
   readonly createdAt: number;
   readonly updatedAt: number;

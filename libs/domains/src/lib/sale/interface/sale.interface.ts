@@ -1,31 +1,22 @@
+import {
+  IProduct,
+  IStoreKeeper,
+} from '../../batchproduct/interface/batchproduct.interface';
 import { IStore } from '../../shared/interface/store.interface';
 
-export interface IBatchProduct {
+export interface ISale {
   readonly _id: string;
   readonly id: string;
-  readonly product: IProduct;
-  readonly batch: IBatch;
-  readonly meta: IBatchProductMetadata;
+  readonly items: ISaleItem[];
+  readonly meta: ISaleMetadata;
   readonly storeKeeper: IStoreKeeper;
   readonly store: Pick<IStore, 'alias'>;
-  readonly items?: IBatchProductItem[];
+  readonly bill: IBill;
+  readonly insider: IInsider;
   readonly createdAt: number;
-  readonly updatedAt: number;
 }
 
-export interface IProduct {
-  readonly name: string;
-  readonly description: string;
-  readonly unitPrice: string;
-  readonly currency: string;
-}
-
-export interface IBatch {
-  batchId: string;
-  size: number;
-}
-
-export interface IBatchProductMetadata {
+export interface ISaleMetadata {
   readonly ipAddress: string;
   readonly deviceOs: string;
   readonly osVersion: string;
@@ -33,7 +24,7 @@ export interface IBatchProductMetadata {
   readonly timeZone: string;
 }
 
-export interface IStoreKeeper {
+export interface IInsider {
   readonly uid: string;
   readonly email: string;
   readonly emailVerified: boolean;
@@ -44,11 +35,13 @@ export interface IStoreKeeper {
   readonly disabled: boolean;
 }
 
-export interface IBatchProductItem {
-  readonly itemId: string;
-  readonly saleId?: string;
+export interface IBill {
+  readonly amount: number;
+  readonly discount: number;
 }
 
-export interface IDeletion {
-  deletedAt: number;
+export interface ISaleItem {
+  readonly product: IProduct;
+  readonly batchProductId: string;
+  readonly batchProductItemId: string;
 }

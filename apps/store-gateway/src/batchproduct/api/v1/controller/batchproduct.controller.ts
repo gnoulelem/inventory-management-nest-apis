@@ -39,8 +39,8 @@ export class BatchProductController {
     @RealIP() ipAddress: string
   ): Promise<InsertOneResult<IBatchProduct>> {
     const batchProduct: TCreateBatchProduct & {
-      createdAt: number;
-      updatedAt: number;
+      readonly createdAt: number;
+      readonly updatedAt: number;
     } = {
       id: uuidV4(),
       ...createBatchProductBody,

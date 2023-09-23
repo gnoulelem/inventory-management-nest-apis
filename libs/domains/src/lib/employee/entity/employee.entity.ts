@@ -1,9 +1,9 @@
 import { IEmployee } from '../interface/employee.interface';
-import { IStore } from '../../batchproduct/interface/batchproduct.interface';
+import { IStore } from '../../shared/interface/store.interface';
 
 export class Employee implements IEmployee {
   readonly uid: string;
-  readonly store: IStore;
+  readonly store: Pick<IStore, 'alias'>;
   readonly createdAt: number;
   readonly updatedAt: number;
 
