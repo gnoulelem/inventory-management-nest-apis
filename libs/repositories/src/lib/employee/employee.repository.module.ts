@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { EmployeeDataSourceModule } from '@store-apis/data-sources/employee';
+import { StoreMetaDataSourceModule } from 'libs/data-sources/src/lib/storemeta';
 import { IEmployeeRepository } from './interface/employee.repository.interface';
 import { EmployeeRepository } from './repository/employee.repository';
 
 @Module({
-  imports: [EmployeeDataSourceModule.forFeatureAsync()],
+  imports: [StoreMetaDataSourceModule.forFeatureAsync()],
   providers: [
     {
       provide: IEmployeeRepository,

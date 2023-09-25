@@ -4,7 +4,7 @@ import { EmployeeService } from '../../../service/employee.service';
 import { AuthGuard } from '@store-apis/repositories/auth';
 import { GCPLogging } from '@store-apis/repositories/shared';
 
-@Controller('v1/employee')
+@Controller('v1/storemeta')
 export class EmployeeController {
   constructor(private readonly employeeService: EmployeeService) {}
 

@@ -6,9 +6,16 @@ import { BatchProductModule } from './batchproduct';
 import { EmployeeModule } from './employee';
 import { InsiderModule } from './insider';
 import { SaleModule } from './sale';
+import { ConfigurationModule } from './configuration';
 
 @Module({
-  imports: [BatchProductModule, EmployeeModule, InsiderModule, SaleModule],
+  imports: [
+    BatchProductModule,
+    EmployeeModule,
+    InsiderModule,
+    SaleModule,
+    ConfigurationModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
