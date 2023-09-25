@@ -5,6 +5,7 @@ export interface IStore {
   readonly location: IStoreLocation;
   readonly contact: IStoreContact;
   readonly alias: string;
+  readonly quidCashGiftConfig: IQuidCashGiftConfig;
 }
 
 export interface IStoreLocation {
@@ -16,7 +17,7 @@ export interface IStoreAddress {
   readonly street: string;
   readonly city: string;
   readonly state: string;
-  readonly postal_code: string;
+  readonly postalCode: string;
   readonly country: string;
 }
 
@@ -31,5 +32,6 @@ export interface IStoreContact {
 }
 
 export interface IQuidCashGiftConfig {
-  readonly granted_percentage_per_sale: number;
+  readonly grantedPercentagePerSale: number;
+  readonly quidCashGiftPercentage: number;
 }
