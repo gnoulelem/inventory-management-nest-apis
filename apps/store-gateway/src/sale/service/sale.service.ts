@@ -26,6 +26,15 @@ export class SaleService {
     }
   }
 
+  async getSale(storeAlias: string, skipValue: number): Promise<ISale[]> {
+    try {
+      return this.saleRepository.retrieve(storeAlias, skipValue);
+    } catch (error: unknown) {
+      console.error('Error in retrieving Sales', error);
+      throw error;
+    }
+  }
+
   private async publishSale(entityLike: TCreateSale): Promise<void> {
     try {
       const input = {

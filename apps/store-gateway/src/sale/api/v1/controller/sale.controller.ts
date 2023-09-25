@@ -1,4 +1,13 @@
-import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  ParseIntPipe,
+  Post,
+  Query,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { SaleService } from '../../../service/sale.service';
 import { AuthGuard } from '@store-apis/repositories/auth';
 import { GCPLogging } from '@store-apis/repositories/shared';
@@ -14,7 +23,7 @@ export class SaleController {
   @Post('/')
   @UseGuards(AuthGuard)
   @GCPLogging
-  async sale_store(
+  async createSale(
     @Request() _request: Request,
     @Body() createSaleBody: CreateSaleDto,
     @RealIP() ipAddress: string
@@ -32,5 +41,16 @@ export class SaleController {
       createdAt: Date.now(),
     };
     return await this.saleService.createSale(sale);
+  }
+
+  @Get('')
+  @UseGuards(AuthGuard)
+  @GCPLogging
+  async getSale(
+    @Request() _request: Request,
+    @Query('store') store: string,
+    @Query('skipValue', ParseIntPipe) skipValue: number
+  ): Promise<ISale[]> {
+    return this.saleService.getSale(store, skipValue);
   }
 }

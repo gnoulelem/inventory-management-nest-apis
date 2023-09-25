@@ -13,4 +13,14 @@ export class SaleRepository implements ISaleRepository {
       .collection<TCreateSale>(entityLike.store.alias)
       .insertOne(entityLike);
   }
+
+  retrieve(storeAlias: string, skipValue: number): Promise<ISale[]> {
+    return this.saleProvider
+      .collection<ISale>(storeAlias)
+      .find()
+      .skip(skipValue)
+      .sort({ createdAt: -1 })
+      .limit(50)
+      .toArray();
+  }
 }
