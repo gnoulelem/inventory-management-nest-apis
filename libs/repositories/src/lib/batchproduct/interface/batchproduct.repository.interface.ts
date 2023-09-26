@@ -4,7 +4,7 @@ import {
   TUpdateBatchProduct,
   TDeleteBatchProduct,
 } from '@store-apis/domains/batchproduct';
-import { InsertOneResult, ModifyResult } from 'mongodb';
+import { InsertOneResult, ModifyResult, UpdateResult } from 'mongodb';
 
 export abstract class IBatchProductRepository {
   abstract create(
@@ -28,4 +28,16 @@ export abstract class IBatchProductRepository {
     storeAlias: string,
     term: string
   ): Promise<IBatchProduct[]>;
+
+  abstract addSaleIdToItem({
+    store: { alias },
+    batchProductId,
+    batchProductItemId,
+    saleId,
+  }: {
+    store: { alias: string };
+    batchProductId: string;
+    batchProductItemId: string;
+    saleId: string;
+  }): Promise<UpdateResult<IBatchProduct>>;
 }

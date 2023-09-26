@@ -10,7 +10,7 @@ import {
   IBatchProductDbProvider,
   IBatchProductLedgerDbProvider,
 } from '@store-apis/data-sources/batchproduct';
-import { InsertOneResult, ModifyResult } from 'mongodb';
+import { InsertOneResult, ModifyResult, UpdateResult } from 'mongodb';
 import { RecordLeger } from '../decorator/recordleger.decorator';
 
 @Injectable()
@@ -115,5 +115,19 @@ export class BatchProductRepository implements IBatchProductRepository {
         },
       ])
       .toArray();
+  }
+
+  addSaleIdToItem({
+    store: { alias },
+    batchProductId,
+    batchProductItemId,
+    saleId,
+  }): Promise<UpdateResult<IBatchProduct>> {
+    return this.batchProductProvider
+      .collection<IBatchProduct>(alias)
+      .updateOne(
+        { id: batchProductId, 'items.itemId': batchProductItemId },
+        { $set: { 'items.$.saleId': saleId } }
+      );
   }
 }

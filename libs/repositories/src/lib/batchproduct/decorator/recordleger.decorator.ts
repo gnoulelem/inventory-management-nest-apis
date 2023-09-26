@@ -1,4 +1,4 @@
-import { InsertOneResult, ModifyResult } from 'mongodb';
+import { InsertOneResult, ModifyResult, UpdateResult } from 'mongodb';
 import {
   IBatchProduct,
   TCreateBatchProduct,
@@ -15,8 +15,16 @@ export function RecordLeger(
         | TCreateBatchProduct
         | TUpdateBatchProduct
         | TDeleteBatchProduct
+        | {
+            store: { alias: string };
+            batchProductId: string;
+            batchProductItemId: string;
+            saleId: string;
+          }
     ) => Promise<
-      InsertOneResult<TCreateBatchProduct> | ModifyResult<IBatchProduct>
+      | InsertOneResult<TCreateBatchProduct>
+      | UpdateResult<IBatchProduct>
+      | ModifyResult<IBatchProduct>
     >
   >
 ): void {
@@ -25,7 +33,9 @@ export function RecordLeger(
   descriptor.value = async function (
     ...args: any[]
   ): Promise<
-    InsertOneResult<TCreateBatchProduct> | ModifyResult<IBatchProduct>
+    | InsertOneResult<TCreateBatchProduct>
+    | UpdateResult<IBatchProduct>
+    | ModifyResult<IBatchProduct>
   > {
     try {
       const result = await originalMethod.apply(this, args);

@@ -8,7 +8,7 @@ import { GCPLogging } from '@store-apis/repositories/shared';
 export class EmployeeController {
   constructor(private readonly employeeService: EmployeeService) {}
 
-  @Get('/me')
+  @Get('/employee/me')
   @UseGuards(AuthGuard)
   @GCPLogging
   async getMe(@Request() _request: Request): Promise<IEmployee> {

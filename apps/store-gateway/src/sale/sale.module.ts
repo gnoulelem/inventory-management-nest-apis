@@ -5,9 +5,14 @@ import { SNSClient } from '@aws-sdk/client-sns';
 import { SaleService } from './service/sale.service';
 import { SaleController } from './api/v1/controller/sale.controller';
 import { ISaleAwsTopicProvider } from './provider/saleawstopic.provider';
+import { BatchProductRepositoryModule } from '@store-apis/repositories/batchproduct';
 
 @Module({
-  imports: [SaleRepositoryModule, AuthRepositoryModule],
+  imports: [
+    SaleRepositoryModule,
+    AuthRepositoryModule,
+    BatchProductRepositoryModule,
+  ],
   providers: [
     SaleService,
     {
