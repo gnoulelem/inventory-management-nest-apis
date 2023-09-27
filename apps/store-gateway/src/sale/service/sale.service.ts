@@ -20,14 +20,14 @@ export class SaleService {
       readonly id: string;
       readonly createdAt: number;
     }
-  ): Promise<any> {
+  ): Promise<InsertOneResult<ISale>> {
     try {
       const [createResult] = await Promise.all([
-        // this.saleRepository.create(entityLike),
-        // this.publishSale(entityLike),
+        this.saleRepository.create(entityLike),
+        this.publishSale(entityLike),
         this.addSaleIdToBatchProductItems(entityLike as ISale),
       ]);
-      // return createResult;
+      return createResult;
     } catch (error: unknown) {
       console.error('Error in creating a Sale', error);
       throw error;
@@ -45,12 +45,14 @@ export class SaleService {
 
   private async publishSale(entityLike: TCreateSale): Promise<void> {
     try {
-      const input = {
-        TopicArn: process.env.SALE_AWS_TOPIC_ARN,
-        Message: JSON.stringify(entityLike),
-      };
-      const command = new PublishCommand(input);
-      await this.salesAwsTopicProvider.send(command);
+      if (entityLike.insider) {
+        const input = {
+          TopicArn: process.env.SALE_AWS_TOPIC_ARN,
+          Message: JSON.stringify(entityLike),
+        };
+        const command = new PublishCommand(input);
+        await this.salesAwsTopicProvider.send(command);
+      }
     } catch (error: unknown) {
       console.error('Error in publishing a Sale', error);
       throw error;

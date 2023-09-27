@@ -161,7 +161,7 @@ export abstract class CreateSaleDto implements TCreateSale {
   @Type(() => BillDto)
   readonly bill: IBill;
 
-  @IsDefined()
+  @IsOptional()
   @IsNotEmptyObject()
   @ValidateNested()
   @Type(() => InsiderDto)

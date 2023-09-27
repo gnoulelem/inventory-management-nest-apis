@@ -12,7 +12,7 @@ export interface ISale {
   readonly storeKeeper: IStoreKeeper;
   readonly store: Pick<IStore, 'alias'>;
   readonly bill: IBill;
-  readonly insider: IInsider;
+  readonly insider?: IInsider;
   readonly createdAt: number;
 }
 
