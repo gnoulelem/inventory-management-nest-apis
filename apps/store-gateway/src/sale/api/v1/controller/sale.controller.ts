@@ -44,8 +44,8 @@ export class SaleController {
   }
 
   @Get('')
-  // @UseGuards(AuthGuard)
-  // @GCPLogging
+  @UseGuards(AuthGuard)
+  @GCPLogging
   async getSalePerDay(
     @Request() _request: Request,
     @Query('store') store: string,
