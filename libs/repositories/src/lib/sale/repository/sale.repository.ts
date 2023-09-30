@@ -14,11 +14,19 @@ export class SaleRepository implements ISaleRepository {
       .insertOne(entityLike);
   }
 
-  retrieve(storeAlias: string, skipValue: number): Promise<ISale[]> {
+  retrieve(storeAlias: string, date: string): Promise<ISale[]> {
+    const dateObject = new Date(date);
+    dateObject.setHours(0, 0, 0, 0);
+
+    const timestamp = dateObject.getTime();
     return this.saleProvider
       .collection<ISale>(storeAlias)
-      .find()
-      .skip(skipValue)
+      .find({
+        createdAt: {
+          $gte: timestamp,
+          $lt: dateObject.getTime() + 24 * 60 * 60 * 1000, // Add one day to the specific date
+        },
+      })
       .sort({ createdAt: -1 })
       .limit(50)
       .toArray();

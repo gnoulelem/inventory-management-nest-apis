@@ -44,13 +44,13 @@ export class SaleController {
   }
 
   @Get('')
-  @UseGuards(AuthGuard)
-  @GCPLogging
-  async getSale(
+  // @UseGuards(AuthGuard)
+  // @GCPLogging
+  async getSalePerDay(
     @Request() _request: Request,
     @Query('store') store: string,
-    @Query('skipValue', ParseIntPipe) skipValue: number
+    @Query('date') date: string
   ): Promise<ISale[]> {
-    return this.saleService.getSale(store, skipValue);
+    return this.saleService.getSale(store, date);
   }
 }

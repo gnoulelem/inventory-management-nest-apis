@@ -34,9 +34,9 @@ export class SaleService {
     }
   }
 
-  async getSale(storeAlias: string, skipValue: number): Promise<ISale[]> {
+  async getSale(storeAlias: string, date: string): Promise<ISale[]> {
     try {
-      return this.saleRepository.retrieve(storeAlias, skipValue);
+      return this.saleRepository.retrieve(storeAlias, date);
     } catch (error: unknown) {
       console.error('Error in retrieving Sales', error);
       throw error;
