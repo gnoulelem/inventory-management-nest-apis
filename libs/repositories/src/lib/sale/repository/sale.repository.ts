@@ -14,7 +14,7 @@ export class SaleRepository implements ISaleRepository {
       .insertOne(entityLike);
   }
 
-  retrieve(storeAlias: string, date: string): Promise<ISale[]> {
+  retrievePerDate(storeAlias: string, date: string): Promise<ISale[]> {
     const dateObject = new Date(date);
     dateObject.setHours(0, 0, 0, 0);
 
@@ -30,5 +30,9 @@ export class SaleRepository implements ISaleRepository {
       .sort({ createdAt: -1 })
       .limit(50)
       .toArray();
+  }
+
+  countAllSales(storeAlias: string): Promise<number> {
+    return this.saleProvider.collection(storeAlias).countDocuments();
   }
 }

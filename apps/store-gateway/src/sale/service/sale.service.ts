@@ -1,6 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { ISaleRepository } from '@store-apis/repositories/sale';
-import { ISale, ISaleItem, TCreateSale } from '@store-apis/domains/sale';
+import {
+  ISale,
+  ISaleHistory,
+  ISaleItem,
+  TCreateSale,
+} from '@store-apis/domains/sale';
 import { InsertOneResult } from 'mongodb';
 import { ISaleAwsTopicProvider } from '../provider/saleawstopic.provider';
 import * as process from 'process';
@@ -30,15 +35,6 @@ export class SaleService {
       return createResult;
     } catch (error: unknown) {
       console.error('Error in creating a Sale', error);
-      throw error;
-    }
-  }
-
-  async getSale(storeAlias: string, date: string): Promise<ISale[]> {
-    try {
-      return this.saleRepository.retrieve(storeAlias, date);
-    } catch (error: unknown) {
-      console.error('Error in retrieving Sales', error);
       throw error;
     }
   }
@@ -78,5 +74,70 @@ export class SaleService {
       );
       throw error;
     }
+  }
+
+  async getSalePerDate(storeAlias: string, date: string): Promise<ISale[]> {
+    try {
+      return this.saleRepository.retrievePerDate(storeAlias, date);
+    } catch (error: unknown) {
+      console.error('Error in retrieving Sales', error);
+      throw error;
+    }
+  }
+
+  async getSalesHistory(
+    storeAlias: string,
+    date: string
+  ): Promise<ISaleHistory> {
+    const MIN_NUMBER_OF_SALES = 3;
+    const allSalesCount = await this.saleRepository.countAllSales(storeAlias);
+    if (allSalesCount >= MIN_NUMBER_OF_SALES) {
+      let currentDate: string = date;
+      const salesHistory = {
+        [currentDate]: await this.saleRepository.retrievePerDate(
+          storeAlias,
+          date
+        ),
+      };
+      while (this.getTotalLengthOfArrays(salesHistory) < MIN_NUMBER_OF_SALES) {
+        currentDate = this.getDayBefore(currentDate);
+        salesHistory[currentDate] = await this.saleRepository.retrievePerDate(
+          storeAlias,
+          currentDate
+        );
+      }
+      return salesHistory;
+    }
+  }
+
+  private getDayBefore(dateString: string): string {
+    const dateParts = dateString.split('-');
+    if (dateParts.length === 3) {
+      const year = parseInt(dateParts[0], 10);
+      const month = parseInt(dateParts[1], 10);
+      const day = parseInt(dateParts[2], 10);
+
+      const currentDate = new Date(year, month - 1, day);
+      currentDate.setDate(currentDate.getDate() - 1);
+
+      const yearBefore = currentDate.getFullYear();
+      const monthBefore = (currentDate.getMonth() + 1)
+        .toString()
+        .padStart(2, '0');
+      const dayBefore = currentDate.getDate().toString().padStart(2, '0');
+
+      return `${yearBefore}-${monthBefore}-${dayBefore}`;
+    }
+    return null; // Invalid date format
+  }
+
+  private getTotalLengthOfArrays(obj: ISaleHistory): number {
+    const combinedArray = Object.values(obj).reduce(
+      (accumulator, currentValue) => {
+        return accumulator.concat(currentValue);
+      },
+      []
+    );
+    return combinedArray.length;
   }
 }

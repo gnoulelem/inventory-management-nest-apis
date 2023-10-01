@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Get,
-  ParseIntPipe,
   Post,
   Query,
   Request,
@@ -11,7 +10,12 @@ import {
 import { SaleService } from '../../../service/sale.service';
 import { AuthGuard } from '@store-apis/repositories/auth';
 import { GCPLogging } from '@store-apis/repositories/shared';
-import { CreateSaleDto, ISale, TCreateSale } from '@store-apis/domains/sale';
+import {
+  CreateSaleDto,
+  ISale,
+  ISaleHistory,
+  TCreateSale,
+} from '@store-apis/domains/sale';
 import { RealIP } from 'nestjs-real-ip';
 import { v4 as uuidV4 } from 'uuid';
 import { InsertOneResult } from 'mongodb';
@@ -51,6 +55,17 @@ export class SaleController {
     @Query('store') store: string,
     @Query('date') date: string
   ): Promise<ISale[]> {
-    return this.saleService.getSale(store, date);
+    return this.saleService.getSalePerDate(store, date);
+  }
+
+  @Get('history')
+  @UseGuards(AuthGuard)
+  @GCPLogging
+  async getSalesHistory(
+    @Request() _request: Request,
+    @Query('store') store: string,
+    @Query('date') date: string
+  ): Promise<ISaleHistory> {
+    return this.saleService.getSalesHistory(store, date);
   }
 }
