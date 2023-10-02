@@ -35,4 +35,8 @@ export class SaleRepository implements ISaleRepository {
   countAllSales(storeAlias: string): Promise<number> {
     return this.saleProvider.collection(storeAlias).countDocuments();
   }
+
+  retrieveSalePerId(storeAlias: string, id: string): Promise<ISale> {
+    return this.saleProvider.collection<ISale>(storeAlias).findOne({ id });
+  }
 }

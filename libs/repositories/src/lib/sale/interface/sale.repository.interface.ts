@@ -7,4 +7,6 @@ export abstract class ISaleRepository {
   abstract retrievePerDate(storeAlias: string, date: string): Promise<ISale[]>;
 
   abstract countAllSales(storeAlias: string): Promise<number>;
+
+  abstract retrieveSalePerId(storeAlias: string, id: string): Promise<ISale>;
 }

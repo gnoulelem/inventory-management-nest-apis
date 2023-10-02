@@ -7,6 +7,7 @@ import { IStore } from '../../shared/interface/store.interface';
 export interface ISale {
   readonly _id: string;
   readonly id: string;
+  readonly saleId: string;
   readonly items: ISaleItem[];
   readonly meta: ISaleMetadata;
   readonly storeKeeper: IStoreKeeper;
