@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  ParseIntPipe,
   Post,
   Query,
   Request,
@@ -64,8 +65,8 @@ export class SaleController {
   async getSalesHistory(
     @Request() _request: Request,
     @Query('store') store: string,
-    @Query('date') date: string
-  ): Promise<ISaleHistory> {
-    return this.saleService.getSalesHistory(store, date);
+    @Query('skipValue', ParseIntPipe) skipValue: number
+  ): Promise<ISale[]> {
+    return this.saleService.getSalesHistory(store, skipValue);
   }
 }

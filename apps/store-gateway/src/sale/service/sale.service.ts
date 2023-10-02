@@ -80,35 +80,47 @@ export class SaleService {
     try {
       return this.saleRepository.retrievePerDate(storeAlias, date);
     } catch (error: unknown) {
-      console.error('Error in retrieving Sales', error);
+      console.error(`Error in retrieving ${date} Sales`, error);
       throw error;
     }
   }
 
   async getSalesHistory(
     storeAlias: string,
-    date: string
-  ): Promise<ISaleHistory> {
-    const MIN_NUMBER_OF_SALES = 3;
-    const allSalesCount = await this.saleRepository.countAllSales(storeAlias);
-    if (allSalesCount >= MIN_NUMBER_OF_SALES) {
-      let currentDate: string = date;
-      const salesHistory = {
-        [currentDate]: await this.saleRepository.retrievePerDate(
-          storeAlias,
-          date
-        ),
-      };
-      while (this.getTotalLengthOfArrays(salesHistory) < MIN_NUMBER_OF_SALES) {
-        currentDate = this.getDayBefore(currentDate);
-        salesHistory[currentDate] = await this.saleRepository.retrievePerDate(
-          storeAlias,
-          currentDate
-        );
-      }
-      return salesHistory;
+    skipValue: number
+  ): Promise<ISale[]> {
+    try {
+      return this.saleRepository.retrieveHistory(storeAlias, skipValue);
+    } catch (error: unknown) {
+      console.error('Error in retrieving Sales history', error);
+      throw error;
     }
   }
+
+  // async getSalesHistory(
+  //   storeAlias: string,
+  //   date: string
+  // ): Promise<ISaleHistory> {
+  //   const MIN_NUMBER_OF_SALES = 3;
+  //   const allSalesCount = await this.saleRepository.countAllSales(storeAlias);
+  //   if (allSalesCount >= MIN_NUMBER_OF_SALES) {
+  //     let currentDate: string = date;
+  //     const salesHistory = {
+  //       [currentDate]: await this.saleRepository.retrievePerDate(
+  //         storeAlias,
+  //         date
+  //       ),
+  //     };
+  //     while (this.getTotalLengthOfArrays(salesHistory) < MIN_NUMBER_OF_SALES) {
+  //       currentDate = this.getDayBefore(currentDate);
+  //       salesHistory[currentDate] = await this.saleRepository.retrievePerDate(
+  //         storeAlias,
+  //         currentDate
+  //       );
+  //     }
+  //     return salesHistory;
+  //   }
+  // }
 
   private getDayBefore(dateString: string): string {
     const dateParts = dateString.split('-');

@@ -32,6 +32,16 @@ export class SaleRepository implements ISaleRepository {
       .toArray();
   }
 
+  retrieveHistory(storeAlias: string, skipValue: number): Promise<ISale[]> {
+    return this.saleProvider
+      .collection<ISale>(storeAlias)
+      .find()
+      .skip(skipValue)
+      .sort({ createdAt: -1 })
+      .limit(50)
+      .toArray();
+  }
+
   countAllSales(storeAlias: string): Promise<number> {
     return this.saleProvider.collection(storeAlias).countDocuments();
   }
