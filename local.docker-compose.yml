@@ -1,0 +1,20 @@
+services:
+#  log-handler:
+#    image: node:18-alpine
+#    command: sh -c "yarn && npx nx serve log-handler"
+#    ports:
+#      - 3001:3001
+#    working_dir: /store-apis
+#    volumes:
+#      - ./:/store-apis
+
+  store-gateway:
+    image: node:18-alpine
+    env_file:
+      - .env
+    command: sh -c "yarn && yarn start store-gateway"
+    ports:
+      - 3000:3000
+    working_dir: /store-apis
+    volumes:
+      - ./:/store-apis

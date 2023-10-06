@@ -1,0 +1,84 @@
+name: Qa Store Gateway Deploy
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '18.x'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install yarn
+        run: npm install -g yarn
+
+      - name: Install npm dependencies
+        run: yarn
+
+      - name: Build store-gateway
+        run: yarn build store-gateway
+
+      - name: Create environment variables file
+        uses: SpicyPizza/create-envfile@v2.0
+        with:
+          envkey_DEBUG: true
+          envkey_FIREBASE_PROJECT_ID: ${{ secrets.QA_FIREBASE_PROJECT_ID }}
+          envkey_FIREBASE_CLIENT_EMAIL: ${{ secrets.QA_FIREBASE_CLIENT_EMAIL }}
+          envkey_FIREBASE_PRIVATE_KEY: ${{ secrets.QA_FIREBASE_PRIVATE_KEY }}
+          envkey_MONGODB_STORE_CLUSTER_CONNECTION_STRING: ${{ secrets.QA_MONGODB_STORE_CLUSTER_CONNECTION_STRING }}
+          envkey_INSIDERS_API_BASE_URL: ${{ secrets.QA_INSIDERS_API_BASE_URL }}
+          envkey_SALE_AWS_TOPIC_ARN: ${{ secrets.QA_SALE_AWS_TOPIC_ARN }}
+          file_name: .env
+
+      - name: Create artifact folder
+        run: |
+          mkdir artifact &&
+          mv "node_modules" "artifact/node_modules" &&
+          mv "dist" "artifact/dist" &&
+          mv "qa.docker-compose.yml" "artifact" &&
+          mv ".env" "artifact"
+
+      - name: Create artifact zip archive
+        run: zip artifact.zip -r artifact
+
+      - name: Copy artifact archive to server
+        uses: cross-the-world/ssh-scp-ssh-pipelines@v1.1.4
+        with:
+          host: ${{ secrets.QA_SERVER_HOST }}
+          port: ${{ secrets.QA_SERVER_PORT }}
+          user: ${{ secrets.QA_SERVER_USER }}
+          key: ${{ secrets.QA_SERVER_KEY }}
+          scp: |
+            ./artifact.zip => /home/ubuntu/artifacts/store-gateway/
+
+      - name: Start server
+        uses: nekiro/ssh-job@v1.0.3
+        with:
+          host: ${{ secrets.QA_SERVER_HOST }}
+          port: ${{ secrets.QA_SERVER_PORT }}
+          user: ${{ secrets.QA_SERVER_USER }}
+          key: ${{ secrets.QA_SERVER_KEY }}
+          command: |
+            cd /home/ubuntu/apps/store-gateway/artifact
+            sudo docker compose -f qa.docker-compose.yml down store-gateway
+            cd ..
+            rm -rf artifact
+            cd /home/ubuntu/artifacts/store-gateway
+            unzip artifact.zip -d /home/ubuntu/apps/store-gateway
+            cd /home/ubuntu/apps/store-gateway/artifact
+            sudo docker compose -f qa.docker-compose.yml up -d store-gateway
+
+
