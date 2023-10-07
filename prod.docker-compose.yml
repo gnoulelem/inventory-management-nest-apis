@@ -1,0 +1,17 @@
+services:
+
+  store-gateway:
+    image: node:18-alpine
+    env_file:
+      - .env
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: eu-central-1
+        awslogs-group: quid-prod-loggroup-storeapisstoregateway-eucentral1
+    command: sh -c "cd dist/apps/store-gateway && node main"
+    ports:
+      - 3000:3000
+    working_dir: /store-apis
+    volumes:
+      - ./:/store-apis
