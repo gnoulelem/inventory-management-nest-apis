@@ -6,6 +6,7 @@ import { SaleService } from './service/sale.service';
 import { SaleController } from './api/v1/controller/sale.controller';
 import { ISaleAwsTopicProvider } from './provider/saleawstopic.provider';
 import { BatchProductRepositoryModule } from '@store-apis/repositories/batchproduct';
+import * as process from "process";
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { BatchProductRepositoryModule } from '@store-apis/repositories/batchprod
     SaleService,
     {
       provide: ISaleAwsTopicProvider,
-      useFactory: () => new SNSClient({ region: 'us-east-1' }),
+      useFactory: () => new SNSClient({ region: process.env.AWS_REGION }),
     },
   ],
   controllers: [SaleController],
