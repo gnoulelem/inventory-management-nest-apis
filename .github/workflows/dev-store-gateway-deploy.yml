@@ -41,7 +41,7 @@ jobs:
             envkey_MONGODB_STORE_CLUSTER_CONNECTION_STRING: ${{ secrets.DEV_MONGODB_STORE_CLUSTER_CONNECTION_STRING }}
             envkey_INSIDERS_API_BASE_URL: ${{ secrets.DEV_INSIDERS_API_BASE_URL }}
             envkey_SALE_AWS_TOPIC_ARN: ${{ secrets.DEV_SALE_AWS_TOPIC_ARN }}
-            envkey_AWS_REGION: ${{ secrets.AWS_REGION }}
+            envkey_AWS_REGION: ${{ secrets.DEV_AWS_REGION }}
             file_name: .env
 
       - name: Create artifact folder
