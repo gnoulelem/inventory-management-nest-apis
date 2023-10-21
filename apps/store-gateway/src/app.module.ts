@@ -7,6 +7,7 @@ import { EmployeeModule } from './employee';
 import { InsiderModule } from './insider';
 import { SaleModule } from './sale';
 import { ConfigurationModule } from './configuration';
+import {AuthModule} from "./auth";
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { ConfigurationModule } from './configuration';
     InsiderModule,
     SaleModule,
     ConfigurationModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],
