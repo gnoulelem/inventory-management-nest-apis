@@ -92,15 +92,15 @@ export class BatchProductRepository implements IBatchProductRepository {
       .collection(storeAlias)
       .aggregate<IBatchProduct>([
         {
-          $search: {
-            text: {
-              query: term,
-              path: ['product.name', 'product.description'],
-            },
-          },
-        },
-        {
           $match: {
+            $or: [
+              ...term.split(' ').map((name) => ({
+                'product.name': {
+                  $regex: name,
+                  $options : 'i',
+                },
+              })),
+            ],
             $and: [
               {
                 items: {
