@@ -100,6 +100,12 @@ export class BatchProductRepository implements IBatchProductRepository {
                   $options : 'i',
                 },
               })),
+              ...term.split(' ').map((name) => ({
+                'product.description': {
+                  $regex: name,
+                  $options : 'i',
+                },
+              })),
             ],
             $and: [
               {
