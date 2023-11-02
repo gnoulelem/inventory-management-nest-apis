@@ -1,24 +1,25 @@
-import { IBatchProductRepository } from '../interface/batchproduct.repository.interface';
+import {IBatchProductRepository} from '../interface/batchproduct.repository.interface';
 import {
   IBatchProduct,
   TCreateBatchProduct,
   TDeleteBatchProduct,
   TUpdateBatchProduct,
 } from '@store-apis/domains/batchproduct';
-import { Injectable } from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import {
   IBatchProductDbProvider,
   IBatchProductLedgerDbProvider,
 } from '@store-apis/data-sources/batchproduct';
-import { InsertOneResult, ModifyResult, UpdateResult } from 'mongodb';
-import { RecordLeger } from '../decorator/recordleger.decorator';
+import {InsertOneResult, ModifyResult, UpdateResult} from 'mongodb';
+import {RecordLeger} from '../decorator/recordleger.decorator';
 
 @Injectable()
 export class BatchProductRepository implements IBatchProductRepository {
   constructor(
     private readonly batchProductProvider: IBatchProductDbProvider,
     public readonly batchProductLedgerProvider: IBatchProductLedgerDbProvider
-  ) {}
+  ) {
+  }
 
   @RecordLeger
   create(
@@ -36,7 +37,7 @@ export class BatchProductRepository implements IBatchProductRepository {
     return this.batchProductProvider
       .collection<IBatchProduct>(entityLike.store.alias)
       .findOneAndUpdate(
-        { id: entityLike.id },
+        {id: entityLike.id},
         {
           $set: entityLike,
         },
@@ -53,7 +54,7 @@ export class BatchProductRepository implements IBatchProductRepository {
     return this.batchProductProvider
       .collection<IBatchProduct>(entityLike.store.alias)
       .findOneAndUpdate(
-        { id: entityLike.id },
+        {id: entityLike.id},
         {
           $set: entityLike,
         },
@@ -74,15 +75,15 @@ export class BatchProductRepository implements IBatchProductRepository {
           {
             items: {
               $elemMatch: {
-                saleId: { $exists: false },
+                saleId: {$exists: false},
               },
             },
           },
-          { deletion: { $exists: false } },
+          {deletion: {$exists: false}},
         ],
       })
       .skip(skipValue)
-      .sort({ createdAt: -1 })
+      .sort({createdAt: -1})
       .limit(50)
       .toArray();
   }
@@ -97,13 +98,13 @@ export class BatchProductRepository implements IBatchProductRepository {
               ...term.split(' ').map((name) => ({
                 'product.name': {
                   $regex: name,
-                  $options : 'i',
+                  $options: 'i',
                 },
               })),
               ...term.split(' ').map((name) => ({
                 'product.description': {
                   $regex: name,
-                  $options : 'i',
+                  $options: 'i',
                 },
               })),
             ],
@@ -111,11 +112,11 @@ export class BatchProductRepository implements IBatchProductRepository {
               {
                 items: {
                   $elemMatch: {
-                    saleId: { $exists: false },
+                    saleId: {$exists: false},
                   },
                 },
               },
-              { deletion: { $exists: false } },
+              {deletion: {$exists: false}},
             ],
           },
         },
@@ -124,16 +125,62 @@ export class BatchProductRepository implements IBatchProductRepository {
   }
 
   addSaleIdToItem({
-    store: { alias },
-    batchProductId,
-    batchProductItemId,
-    saleId,
-  }): Promise<UpdateResult<IBatchProduct>> {
+                    store: {alias},
+                    batchProductId,
+                    batchProductItemId,
+                    saleId,
+                  }): Promise<UpdateResult<IBatchProduct>> {
     return this.batchProductProvider
       .collection<IBatchProduct>(alias)
       .updateOne(
-        { id: batchProductId, 'items.itemId': batchProductItemId },
-        { $set: { 'items.$.saleId': saleId } }
+        {id: batchProductId, 'items.itemId': batchProductItemId},
+        {$set: {'items.$.saleId': saleId}}
       );
+  }
+
+  find(
+    storeAlias: string,
+    skipValue: number
+  ): Promise<IBatchProduct[]> {
+    return this.batchProductProvider
+      .collection<IBatchProduct>(storeAlias)
+      .find({
+        $and: [
+          {deletion: {$exists: false}},
+        ],
+      })
+      .skip(skipValue)
+      .sort({createdAt: -1})
+      .limit(50)
+      .toArray();
+  }
+
+  search(storeAlias: string, term: string): Promise<IBatchProduct[]> {
+    return this.batchProductProvider
+      .collection(storeAlias)
+      .aggregate<IBatchProduct>([
+        {
+          $match: {
+            $or: [
+              ...term.split(' ').map((name) => ({
+                'product.name': {
+                  $regex: name,
+                  $options: 'i',
+                },
+              })),
+              ...term.split(' ').map((name) => ({
+                'product.description': {
+                  $regex: name,
+                  $options: 'i',
+                },
+              })),
+            ],
+            $and: [
+              {deletion: {$exists: false}},
+            ],
+          },
+        },
+      ])
+      .toArray();
   }
 }

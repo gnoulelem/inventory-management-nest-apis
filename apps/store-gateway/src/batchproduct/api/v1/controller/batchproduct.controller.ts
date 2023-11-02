@@ -113,7 +113,7 @@ export class BatchProductController {
     return this.batchProductService.findAvailableBatchProduct(store, skipValue);
   }
 
-  @Get('/search')
+  @Get('/available/search')
   @UseGuards(AuthGuard)
   @GCPLogging
   async searchAvailable(
@@ -122,5 +122,27 @@ export class BatchProductController {
     @Query('query') query: string
   ): Promise<IBatchProduct[]> {
     return this.batchProductService.searchAvailableBatchProduct(store, query);
+  }
+
+  @Get('/')
+  @UseGuards(AuthGuard)
+  @GCPLogging
+  async show(
+    @Request() _request: Request,
+    @Query('store') store: string,
+    @Query('skipValue', ParseIntPipe) skipValue: number
+  ): Promise<IBatchProduct[]> {
+    return this.batchProductService.findBatchProduct(store, skipValue);
+  }
+
+  @Get('/search')
+  @UseGuards(AuthGuard)
+  @GCPLogging
+  async search(
+    @Request() _request: Request,
+    @Query('store') store: string,
+    @Query('query') query: string
+  ): Promise<IBatchProduct[]> {
+    return this.batchProductService.searchBatchProduct(store, query);
   }
 }

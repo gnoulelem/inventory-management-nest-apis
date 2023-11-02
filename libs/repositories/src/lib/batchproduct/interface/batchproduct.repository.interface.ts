@@ -40,4 +40,14 @@ export abstract class IBatchProductRepository {
     batchProductItemId: string;
     saleId: string;
   }): Promise<UpdateResult<IBatchProduct>>;
+
+  abstract find(
+    storeAlias: string,
+    skipValue: number
+  ): Promise<IBatchProduct[]>;
+
+  abstract search(
+    storeAlias: string,
+    term: string
+  ): Promise<IBatchProduct[]>;
 }

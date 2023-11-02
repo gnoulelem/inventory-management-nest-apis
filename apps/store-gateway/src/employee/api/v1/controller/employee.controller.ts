@@ -4,11 +4,11 @@ import { EmployeeService } from '../../../service/employee.service';
 import { AuthGuard } from '@store-apis/repositories/auth';
 import { GCPLogging } from '@store-apis/repositories/shared';
 
-@Controller('v1/storemeta')
+@Controller('v1/storemeta/employee')
 export class EmployeeController {
   constructor(private readonly employeeService: EmployeeService) {}
 
-  @Get('/employee/me')
+  @Get('/me')
   @UseGuards(AuthGuard)
   @GCPLogging
   async getMe(@Request() _request: Request): Promise<IEmployee> {

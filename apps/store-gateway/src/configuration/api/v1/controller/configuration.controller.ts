@@ -3,7 +3,7 @@ import { IStore } from '@store-apis/domains/shared';
 import { ConfigurationService } from '../../../service/configuration.service';
 import { GCPLogging } from '@store-apis/repositories/shared';
 
-@Controller('v1/configuration')
+@Controller('v1/storemeta/configuration')
 export class ConfigurationController {
   constructor(private readonly configurationService: ConfigurationService) {}
 

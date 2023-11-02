@@ -70,4 +70,28 @@ export class BatchProductService {
       throw error;
     }
   }
+
+  async findBatchProduct(
+    storeAlias: string,
+    skipValue: number
+  ): Promise<IBatchProduct[]> {
+    try {
+      return this.batchProductRepository.find(storeAlias, skipValue);
+    } catch (error: unknown) {
+      console.error('Error in finding a BatchProduct', error);
+      throw error;
+    }
+  }
+
+  async searchBatchProduct(
+    storeAlias: string,
+    term: string
+  ): Promise<IBatchProduct[]> {
+    try {
+      return this.batchProductRepository.search(storeAlias, term);
+    } catch (error: unknown) {
+      console.error('Error in updating a BatchProduct', error);
+      throw error;
+    }
+  }
 }
