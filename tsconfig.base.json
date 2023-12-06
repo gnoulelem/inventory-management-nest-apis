@@ -38,6 +38,9 @@
       "@store-apis/data-sources/configuration": [
         "libs/data-sources/src/lib/configuration/index.ts"
       ],
+      "@store-apis/data-sources/cashgiftclaim": [
+        "libs/data-sources/src/lib/cashgiftclaim/index.ts"
+      ],
       "@store-apis/domains": ["libs/domains/src/index.ts"],
       "@store-apis/domains/auth": ["libs/domains/src/lib/auth/index.ts"],
       "@store-apis/domains/log": ["libs/domains/src/lib/log/index.ts"],
@@ -55,6 +58,9 @@
       ],
       "@store-apis/domains/sale": [
         "libs/domains/src/lib/sale/index.ts"
+      ],
+      "@store-apis/domains/cashgiftclaim": [
+        "libs/domains/src/lib/cashgiftclaim/index.ts"
       ],
       "@store-apis/repositories": ["libs/repositories/src/index.ts"],
       "@store-apis/repositories/auth": [
@@ -80,6 +86,9 @@
       ],
       "@store-apis/repositories/configuration": [
         "libs/repositories/src/lib/configuration/index.ts"
+      ],
+      "@store-apis/repositories/cashgiftclaim": [
+        "libs/repositories/src/lib/cashgiftclaim/index.ts"
       ]
     }
   },
