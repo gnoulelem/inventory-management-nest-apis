@@ -4,7 +4,7 @@ import {ICashgiftclaim, TCreateCashgiftclaim} from "@store-apis/domains/cashgift
 import {InsertOneResult} from "mongodb";
 import process from "process";
 import {PublishCommand} from "@aws-sdk/client-sns";
-import {ISaleAwsTopicProvider} from "../../sale/provider/saleawstopic.provider";
+import {ISaleAwsTopicProvider} from "../provider/saleawstopic.provider";
 
 @Injectable()
 export class CashgiftclaimService {

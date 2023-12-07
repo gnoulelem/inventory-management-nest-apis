@@ -13,8 +13,8 @@ export class CashgiftclaimController {
   }
 
   @Post('/')
-  // @UseGuards(AuthGuard)
-  // @GCPLogging
+  @UseGuards(AuthGuard)
+  @GCPLogging
   async createCashgiftclaim(
     @Request() _request: Request,
     @Body() createCashgiftclaimBody: CreateCashgiftclaimDto,
