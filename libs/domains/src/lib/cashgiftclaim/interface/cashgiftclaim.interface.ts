@@ -9,6 +9,8 @@ export interface ICashgiftclaim {
   readonly storeKeeper: IStoreKeeper;
   readonly store: Pick<IStore, 'alias'>;
   readonly saleBill: IBill;
+  claim: IClaim;
+  currency: string;
   readonly createdAt: number;
 }
 
@@ -33,4 +35,8 @@ export interface IMetadata {
 
 export interface IBill {
   readonly amount: number;
+}
+
+export interface IClaim {
+  amount: number;
 }

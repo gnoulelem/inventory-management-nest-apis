@@ -7,6 +7,7 @@ export interface IStore {
   readonly contact: IStoreContact;
   readonly alias: string;
   readonly quidCashGiftConfig: IQuidCashGiftConfig;
+  readonly currency: string;
 }
 
 export interface IStoreLocation {
@@ -34,5 +35,6 @@ export interface IStoreContact {
 
 export interface IQuidCashGiftConfig {
   readonly grantedPercentagePerSale: number;
-  readonly quidCashGiftPercentage: number;
+  readonly quidCashGiftPercentagePerSale: number;
+  readonly sponsorGrantedPercentagePerSale: number;
 }

@@ -5,10 +5,13 @@ import {InsertOneResult} from "mongodb";
 import process from "process";
 import {PublishCommand} from "@aws-sdk/client-sns";
 import {ISaleAwsTopicProvider} from "../provider/saleawstopic.provider";
+import {IConfigurationRepository} from "@store-apis/repositories/configuration";
 
 @Injectable()
 export class CashgiftclaimService {
-  constructor(private readonly cashgiftclaimRepository: ICashgiftclaimRepository, private readonly salesAwsTopicProvider: ISaleAwsTopicProvider,) {
+  constructor(private readonly cashgiftclaimRepository: ICashgiftclaimRepository,
+              private readonly salesAwsTopicProvider: ISaleAwsTopicProvider,
+              private readonly configurationRepository: IConfigurationRepository) {
   }
 
   async createCashgiftclaim(
@@ -18,6 +21,11 @@ export class CashgiftclaimService {
     }
   ): Promise<InsertOneResult<ICashgiftclaim>> {
     try {
+      const storeConfigs = await this.configurationRepository.getStoreConfig(entityLike.store.alias);
+      entityLike.claim = {
+        amount: entityLike.saleBill.amount * storeConfigs.quidCashGiftConfig.quidCashGiftPercentagePerSale / 100,
+      }
+      entityLike.currency = storeConfigs.currency;
       const [createResult] = await Promise.all([
         this.cashgiftclaimRepository.create(entityLike),
         this.publishCashgiftclaim(entityLike)

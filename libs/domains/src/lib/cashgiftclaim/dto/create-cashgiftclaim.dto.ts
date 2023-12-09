@@ -1,4 +1,4 @@
-import {IBill, IMetadata, TCreateCashgiftclaim} from "@store-apis/domains/cashgiftclaim";
+import {IBill, IClaim, IMetadata, TCreateCashgiftclaim} from "@store-apis/domains/cashgiftclaim";
 import {IStore} from "@store-apis/domains/shared";
 import {IStoreKeeper} from "@store-apis/domains/batchproduct";
 import {
@@ -33,6 +33,12 @@ export abstract class CreateCashgiftclaimDto implements TCreateCashgiftclaim {
   @Type(() => SaleBillDto)
   readonly saleBill: IBill;
 
+  @IsOptional()
+  @IsNotEmptyObject()
+  @ValidateNested()
+  @Type(() => ClaimDto)
+  readonly claim: IClaim;
+
   @IsDefined()
   @IsNotEmptyObject()
   @ValidateNested()
@@ -45,6 +51,8 @@ export abstract class CreateCashgiftclaimDto implements TCreateCashgiftclaim {
   @Type(() => StoreKeeperDto)
   readonly storeKeeper: IStoreKeeper;
 
+  @IsString()
+  readonly currency: string;
 }
 
 abstract class SaleMetadataDto implements IMetadata {
@@ -66,6 +74,11 @@ abstract class SaleMetadataDto implements IMetadata {
 
 abstract class SaleBillDto implements IBill {
   @IsNumber()
+  readonly amount: number;
+}
+
+abstract class ClaimDto implements IClaim {
+  @IsOptional()
   readonly amount: number;
 }
 
