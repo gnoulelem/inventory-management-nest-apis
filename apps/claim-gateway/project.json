@@ -1,0 +1,64 @@
+{
+  "name": "claim-gateway",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/claim-gateway/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/claim-gateway",
+        "main": "apps/claim-gateway/src/main.ts",
+        "tsConfig": "apps/claim-gateway/tsconfig.app.json",
+        "assets": ["apps/claim-gateway/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/claim-gateway/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "claim-gateway:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "claim-gateway:build:development"
+        },
+        "production": {
+          "buildTarget": "claim-gateway:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/claim-gateway/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/claim-gateway/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}
