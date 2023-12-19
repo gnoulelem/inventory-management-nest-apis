@@ -16,7 +16,7 @@ import {IInsider} from "@store-apis/domains/sale";
 import {TCreateClaim} from "../type/create-claim.type";
 
 export abstract class CreateClaimDto implements TCreateClaim {
-  @IsOptional()
+  @IsDefined()
   @IsNotEmptyObject()
   @ValidateNested()
   @Type(() => InsiderDto)
@@ -30,9 +30,6 @@ export abstract class CreateClaimDto implements TCreateClaim {
 
   @IsNumber()
   readonly saleAmount: number;
-
-  @IsNumber()
-  readonly amount: number;
 
   @IsDefined()
   @IsNotEmptyObject()

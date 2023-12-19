@@ -8,20 +8,19 @@ export interface IBill {
   readonly createdAt: number;
 }
 
-interface IBillItem {
+export interface IBillItem {
   readonly id: string;
   readonly claimId: string;
   readonly saleAmount: number;
-  readonly claimAmount: number;
   readonly amount: number;
   readonly insiderPhoneNumber: string;
   readonly createdAt: number;
 }
 
-interface IBillState {
+export interface IBillState {
   readonly paid: boolean;
-  readonly paidAt: number;
-  readonly paymentDetails: IPaymentDetails
+  readonly paidAt: number | undefined;
+  readonly paymentDetails: IPaymentDetails | undefined
 }
 
 interface IPaymentDetails {

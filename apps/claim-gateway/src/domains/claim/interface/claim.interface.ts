@@ -9,9 +9,9 @@ export interface IClaim {
   readonly storeKeeper: IStoreKeeper;
   readonly store: Pick<IStore, 'alias' | 'name' | 'id' | 'currency'>;
   readonly saleAmount: number;
-  readonly amount: number;
-  readonly state: TClaimState;
-  readonly billId: string;
+  amount: number | undefined;
+  readonly state: "LATENT" | "EFFECTIVE" | "PAID";
+  billId: string | undefined;
   readonly createdAt: number;
 }
 
@@ -33,5 +33,3 @@ export interface IMetadata {
   readonly deviceLanguage: string;
   readonly timeZone: string;
 }
-
-type TClaimState = "LATENT" | "EFFECTIVE" | "PAID";

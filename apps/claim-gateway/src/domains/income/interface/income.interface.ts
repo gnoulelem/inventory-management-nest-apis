@@ -2,13 +2,9 @@ export interface IIncome {
   readonly id: string;
   readonly billId: string;
   readonly claimId: string;
-  readonly kind: TIncomeKind;
+  readonly kind: "REFERENCING";
   readonly storeId: string;
   readonly amount: number;
-  readonly state: TIncomeState;
+  readonly state: "LATENT" | "EFFECTIVE" | "PAID";
   readonly createdAt: number;
 }
-
-type TIncomeKind = "REFERENCING"
-
-type TIncomeState = "LATENT" | "EFFECTIVE" | "PAID";

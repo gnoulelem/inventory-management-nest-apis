@@ -1,6 +1,10 @@
-import {IBill} from "../../../domains/bill";
-import {InsertOneResult} from "mongodb";
+import {Bill, IBill, IBillItem} from "../../../domains/bill";
+import {InsertOneResult, UpdateResult} from "mongodb";
 
 export abstract class IBillRepository {
-  abstract create(entityLike: IBill): Promise<InsertOneResult<IBill>>
+  abstract createBill(entityLike: IBill): Promise<InsertOneResult<IBill>>
+
+  abstract insertBillItem(entityLike: IBillItem, bill: Bill, period: string): Promise<UpdateResult<IBill>>
+
+  abstract findBill(period: string): Promise<IBill>
 }
