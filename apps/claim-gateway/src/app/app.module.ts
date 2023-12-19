@@ -1,4 +1,5 @@
 import {Module} from '@nestjs/common';
+import {HttpModule} from '@nestjs/axios';
 import {ConfigurationRepositoryModule} from "@store-apis/repositories/configuration";
 
 import {AppController} from './api/v1/controller/app.controller';
@@ -10,7 +11,7 @@ import {ReferencingRepositoryModule} from "../repositories/referencing/referenci
 
 
 @Module({
-  imports: [ClaimRepositoryModule, BillRepositoryModule, IncomeRepositoryModule, ConfigurationRepositoryModule, ReferencingRepositoryModule],
+  imports: [ClaimRepositoryModule, BillRepositoryModule, IncomeRepositoryModule, ConfigurationRepositoryModule, ReferencingRepositoryModule, HttpModule],
   controllers: [AppController],
   providers: [AppService],
 })
