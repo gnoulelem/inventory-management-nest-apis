@@ -12,9 +12,7 @@ import {IReferencingRepository} from "../../../../repositories/referencing/inter
 import {IIncomeRepository} from "../../../../repositories/income/interface/income.repository.interface";
 import {getCurrentBillPeriod} from "../../utilities/bill.utlils";
 import {UserRecord} from "firebase-admin/lib/auth";
-import {catchError, firstValueFrom} from "rxjs";
-import {AxiosError} from "axios";
-import {HttpService} from "@nestjs/axios";
+import {IInsiderRepository} from "@store-apis/repositories/insider";
 
 @Injectable()
 export class AppService {
@@ -23,7 +21,7 @@ export class AppService {
               private readonly billRepository: IBillRepository,
               private readonly referencingRepository: IReferencingRepository,
               private readonly incomeRepository: IIncomeRepository,
-              private readonly httpService: HttpService) {
+              private readonly insiderRepository: IInsiderRepository) {
   }
 
   async handleClaim(createClaimRequest: TCreateClaim & {
@@ -63,34 +61,10 @@ export class AppService {
   }
 
   async getInsider(phoneNumber: string): Promise<UserRecord> {
-    const {data} = await firstValueFrom(
-      this.httpService
-        .get<UserRecord>(
-          `${process.env.INSIDERS_API_BASE_URL}/insider/${phoneNumber}`
-        )
-        .pipe(
-          catchError((error: AxiosError) => {
-            Logger.error(error.response.data);
-            throw 'An error occurred';
-          })
-        )
-    );
-    return data;
+    return this.insiderRepository.retrieveInsiderByPhoneNumber(phoneNumber)
   }
 
   async createInsider(phoneNumber: string): Promise<UserRecord> {
-    const {data} = await firstValueFrom(
-      this.httpService
-        .post<UserRecord>(`${process.env.INSIDERS_API_BASE_URL}/insider`, {
-          phoneNumber,
-        })
-        .pipe(
-          catchError((error: AxiosError) => {
-            Logger.error(error.response.data);
-            throw 'An error occurred';
-          })
-        )
-    );
-    return data;
+    return this.insiderRepository.createInsider({phoneNumber})
   }
 }

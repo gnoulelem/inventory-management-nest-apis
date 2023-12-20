@@ -41,6 +41,9 @@
       "@store-apis/data-sources/storemeta": [
         "libs/data-sources/src/lib/storemeta/index.ts"
       ],
+      "@store-apis/data-sources/insider": [
+        "libs/data-sources/src/lib/insider/index.ts"
+      ],
       "@store-apis/domains": ["libs/domains/src/index.ts"],
       "@store-apis/domains/auth": ["libs/domains/src/lib/auth/index.ts"],
       "@store-apis/domains/batchproduct": [
@@ -58,6 +61,7 @@
       "@store-apis/domains/log": ["libs/domains/src/lib/log/index.ts"],
       "@store-apis/domains/sale": ["libs/domains/src/lib/sale/index.ts"],
       "@store-apis/domains/shared": ["libs/domains/src/lib/shared/index.ts"],
+      "@store-apis/domains/insider": ["libs/domains/src/lib/insider/index.ts"],
       "@store-apis/repositories": ["libs/repositories/src/index.ts"],
       "@store-apis/repositories/auth": [
         "libs/repositories/src/lib/auth/index.ts"
@@ -85,6 +89,9 @@
       ],
       "@store-apis/repositories/shared": [
         "libs/repositories/src/lib/shared/index.ts"
+      ],
+      "@store-apis/repositories/insider": [
+        "libs/repositories/src/lib/insider/index.ts"
       ]
     }
   },
