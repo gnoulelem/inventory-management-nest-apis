@@ -1,7 +1,7 @@
 import {Body, Controller, Get, Param, Post, UseGuards} from '@nestjs/common';
 
 import {AppService} from '../service/app.service';
-import {CreateClaimDto, TCreateClaim} from "../../../../domains/claim";
+import {CreateClaimDto, TCreateClaim} from "@store-apis/domains/claim";
 import {RealIP} from "nestjs-real-ip";
 import {v4 as uuidV4} from "uuid";
 import {UserRecord} from "firebase-admin/lib/auth";

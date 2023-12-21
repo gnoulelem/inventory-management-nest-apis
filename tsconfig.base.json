@@ -11,12 +11,17 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2017", "dom"],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@store-apis/data-sources": ["libs/data-sources/src/index.ts"],
+      "@store-apis/data-sources": [
+        "libs/data-sources/src/index.ts"
+      ],
       "@store-apis/data-sources/auth": [
         "libs/data-sources/src/lib/auth/index.ts"
       ],
@@ -32,6 +37,9 @@
       "@store-apis/data-sources/customer": [
         "libs/data-sources/src/lib/customer/index.ts"
       ],
+      "@store-apis/data-sources/insider": [
+        "libs/data-sources/src/lib/insider/index.ts"
+      ],
       "@store-apis/data-sources/log": [
         "libs/data-sources/src/lib/log/index.ts"
       ],
@@ -41,11 +49,24 @@
       "@store-apis/data-sources/storemeta": [
         "libs/data-sources/src/lib/storemeta/index.ts"
       ],
-      "@store-apis/data-sources/insider": [
-        "libs/data-sources/src/lib/insider/index.ts"
+      "@store-apis/data-sources/bill": [
+        "libs/data-sources/src/lib/bill/index.ts"
       ],
-      "@store-apis/domains": ["libs/domains/src/index.ts"],
-      "@store-apis/domains/auth": ["libs/domains/src/lib/auth/index.ts"],
+      "@store-apis/data-sources/claim": [
+        "libs/data-sources/src/lib/claim/index.ts"
+      ],
+      "@store-apis/data-sources/income": [
+        "libs/data-sources/src/lib/income/index.ts"
+      ],
+      "@store-apis/data-sources/referencing": [
+        "libs/data-sources/src/lib/referencing/index.ts"
+      ],
+      "@store-apis/domains": [
+        "libs/domains/src/index.ts"
+      ],
+      "@store-apis/domains/auth": [
+        "libs/domains/src/lib/auth/index.ts"
+      ],
       "@store-apis/domains/batchproduct": [
         "libs/domains/src/lib/batchproduct/index.ts"
       ],
@@ -58,11 +79,42 @@
       "@store-apis/domains/employee": [
         "libs/domains/src/lib/employee/index.ts"
       ],
-      "@store-apis/domains/log": ["libs/domains/src/lib/log/index.ts"],
-      "@store-apis/domains/sale": ["libs/domains/src/lib/sale/index.ts"],
-      "@store-apis/domains/shared": ["libs/domains/src/lib/shared/index.ts"],
-      "@store-apis/domains/insider": ["libs/domains/src/lib/insider/index.ts"],
-      "@store-apis/repositories": ["libs/repositories/src/index.ts"],
+      "@store-apis/domains/insider": [
+        "libs/domains/src/lib/insider/index.ts"
+      ],
+      "@store-apis/domains/log": [
+        "libs/domains/src/lib/log/index.ts"
+      ],
+      "@store-apis/domains/sale": [
+        "libs/domains/src/lib/sale/index.ts"
+      ],
+      "@store-apis/domains/shared": [
+        "libs/domains/src/lib/shared/index.ts"
+      ],
+      "@store-apis/domains/bill": [
+        "libs/domains/src/lib/bill/index.ts"
+      ],
+      "@store-apis/domains/claim": [
+        "libs/domains/src/lib/claim/index.ts"
+      ],
+      "@store-apis/domains/income": [
+        "libs/domains/src/lib/income/index.ts"
+      ],
+      "@store-apis/domains/referencing": [
+        "libs/domains/src/lib/referencing/index.ts"
+      ],
+      "@store-apis/providers": [
+        "libs/providers/src/index.ts"
+      ],
+      "@store-apis/providers/mongodb": [
+        "libs/providers/src/lib/mongodb/index.ts"
+      ],
+      "@store-apis/providers/providers": [
+        "libs/providers/providers/src/index.ts"
+      ],
+      "@store-apis/repositories": [
+        "libs/repositories/src/index.ts"
+      ],
       "@store-apis/repositories/auth": [
         "libs/repositories/src/lib/auth/index.ts"
       ],
@@ -81,6 +133,9 @@
       "@store-apis/repositories/employee": [
         "libs/repositories/src/lib/employee/index.ts"
       ],
+      "@store-apis/repositories/insider": [
+        "libs/repositories/src/lib/insider/index.ts"
+      ],
       "@store-apis/repositories/log": [
         "libs/repositories/src/lib/log/index.ts"
       ],
@@ -90,10 +145,22 @@
       "@store-apis/repositories/shared": [
         "libs/repositories/src/lib/shared/index.ts"
       ],
-      "@store-apis/repositories/insider": [
-        "libs/repositories/src/lib/insider/index.ts"
+      "@store-apis/repositories/bill": [
+        "libs/repositories/src/lib/bill/index.ts"
+      ],
+      "@store-apis/repositories/claim": [
+        "libs/repositories/src/lib/claim/index.ts"
+      ],
+      "@store-apis/repositories/income": [
+        "libs/repositories/src/lib/income/index.ts"
+      ],
+      "@store-apis/repositories/referencing": [
+        "libs/repositories/src/lib/referencing/index.ts"
       ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

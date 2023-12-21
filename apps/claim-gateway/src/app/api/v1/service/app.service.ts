@@ -1,27 +1,35 @@
-import {Injectable, Logger} from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import {v4 as uuidV4} from "uuid";
 import {IConfigurationRepository} from "@store-apis/repositories/configuration";
 import {IStore} from "@store-apis/domains/shared";
-import {IClaim, TCreateClaim} from "../../../../domains/claim";
-import {IClaimRepository} from "../../../../repositories/claim/interface/claim.repository.interface";
-import {Bill, BillItem} from "../../../../domains/bill";
-import {IBillRepository} from "../../../../repositories/bill/interface/bill.repository.interface";
-import {Income} from "../../../../domains/income";
-import {IReferencing} from "../../../../domains/referencing";
-import {IReferencingRepository} from "../../../../repositories/referencing/interface/referencing.repository.interface";
-import {IIncomeRepository} from "../../../../repositories/income/interface/income.repository.interface";
+import {IClaim, TCreateClaim} from "@store-apis/domains/claim";
+import {
+  IClaimRepository
+} from "@store-apis/repositories/claim";
+import {Bill, BillItem} from "@store-apis/domains/bill";
+import {IBillRepository} from "@store-apis/repositories/bill";
+import {Income} from "@store-apis/domains/income";
+import {IReferencing} from "@store-apis/domains/referencing";
+import {
+  IReferencingRepository
+} from "@store-apis/repositories/referencing";
+import {
+  IIncomeRepository
+} from "@store-apis/repositories/income";
 import {getCurrentBillPeriod} from "../../utilities/bill.utlils";
 import {UserRecord} from "firebase-admin/lib/auth";
 import {IInsiderRepository} from "@store-apis/repositories/insider";
 
 @Injectable()
 export class AppService {
-  constructor(private readonly configurationRepository: IConfigurationRepository,
-              private readonly claimRepository: IClaimRepository,
-              private readonly billRepository: IBillRepository,
-              private readonly referencingRepository: IReferencingRepository,
-              private readonly incomeRepository: IIncomeRepository,
-              private readonly insiderRepository: IInsiderRepository) {
+  constructor(
+    private readonly configurationRepository: IConfigurationRepository,
+    private readonly claimRepository: IClaimRepository,
+    private readonly billRepository: IBillRepository,
+    private readonly referencingRepository: IReferencingRepository,
+    private readonly incomeRepository: IIncomeRepository,
+    private readonly insiderRepository: IInsiderRepository
+  ) {
   }
 
   async handleClaim(createClaimRequest: TCreateClaim & {

@@ -3,16 +3,18 @@ import {ConfigurationRepositoryModule} from "@store-apis/repositories/configurat
 
 import {AppController} from './api/v1/controller/app.controller';
 import {AppService} from './api/v1/service/app.service';
-import {ClaimRepositoryModule} from "../repositories/claim/claim.repository.module";
-import {BillRepositoryModule} from "../repositories/bill/bill.repository.module";
-import {IncomeRepositoryModule} from "../repositories/income/income.repository.module";
-import {ReferencingRepositoryModule} from "../repositories/referencing/referencing.repository.module";
+import {BillRepositoryModule} from "@store-apis/repositories/bill";
+import {IncomeRepositoryModule} from "@store-apis/repositories/income";
+import {ReferencingRepositoryModule} from "@store-apis/repositories/referencing";
 import {AuthRepositoryModule} from "@store-apis/repositories/auth";
 import {InsiderRepositoryModule} from "@store-apis/repositories/insider";
+import {ClaimRepositoryModule} from "@store-apis/repositories/claim";
+import {MongoDbClaimProviderModule} from "@store-apis/providers/mongodb";
 
 
 @Module({
   imports: [
+    MongoDbClaimProviderModule,
     ClaimRepositoryModule,
     BillRepositoryModule,
     IncomeRepositoryModule,
