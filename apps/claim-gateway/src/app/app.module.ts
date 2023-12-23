@@ -10,6 +10,7 @@ import {AuthRepositoryModule} from "@store-apis/repositories/auth";
 import {InsiderRepositoryModule} from "@store-apis/repositories/insider";
 import {ClaimRepositoryModule} from "@store-apis/repositories/claim";
 import {MongoDbClaimProviderModule} from "@store-apis/providers/mongodb";
+import {EmployeeRepositoryModule} from "@store-apis/repositories/employee";
 
 
 @Module({
@@ -18,10 +19,11 @@ import {MongoDbClaimProviderModule} from "@store-apis/providers/mongodb";
     ClaimRepositoryModule,
     BillRepositoryModule,
     IncomeRepositoryModule,
-    ConfigurationRepositoryModule,
     ReferencingRepositoryModule,
     AuthRepositoryModule,
-    InsiderRepositoryModule
+    InsiderRepositoryModule,
+    ConfigurationRepositoryModule,
+    EmployeeRepositoryModule
   ],
   controllers: [AppController],
   providers: [AppService],

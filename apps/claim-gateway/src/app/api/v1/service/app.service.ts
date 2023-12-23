@@ -19,6 +19,8 @@ import {
 import {getCurrentBillPeriod} from "../../utilities/bill.utlils";
 import {UserRecord} from "firebase-admin/lib/auth";
 import {IInsiderRepository} from "@store-apis/repositories/insider";
+import {IEmployeeRepository} from "@store-apis/repositories/employee";
+import {IEmployee} from "@store-apis/domains/employee";
 
 @Injectable()
 export class AppService {
@@ -28,7 +30,8 @@ export class AppService {
     private readonly billRepository: IBillRepository,
     private readonly referencingRepository: IReferencingRepository,
     private readonly incomeRepository: IIncomeRepository,
-    private readonly insiderRepository: IInsiderRepository
+    private readonly insiderRepository: IInsiderRepository,
+    private readonly employeeRepository: IEmployeeRepository
   ) {
   }
 
@@ -60,19 +63,23 @@ export class AppService {
     ])
   }
 
-  private async getStoreConfig(storeAlias: string): Promise<IStore> {
-    return this.configurationRepository.getStoreConfig(storeAlias)
-  }
-
-  private async getInsiderReferencing(insiderId: string): Promise<IReferencing> {
-    return this.referencingRepository.findByInsider(insiderId);
-  }
-
   async getInsider(phoneNumber: string): Promise<UserRecord> {
     return this.insiderRepository.retrieveInsiderByPhoneNumber(phoneNumber)
   }
 
   async createInsider(phoneNumber: string): Promise<UserRecord> {
     return this.insiderRepository.createInsider({phoneNumber})
+  }
+
+  async getStoreEmployee(uid: string): Promise<IEmployee> {
+    return this.employeeRepository.getMe(uid);
+  }
+
+  async getStoreConfig(storeAlias: string): Promise<IStore> {
+    return this.configurationRepository.getStoreConfig(storeAlias)
+  }
+
+  private async getInsiderReferencing(insiderId: string): Promise<IReferencing> {
+    return this.referencingRepository.findByInsider(insiderId);
   }
 }

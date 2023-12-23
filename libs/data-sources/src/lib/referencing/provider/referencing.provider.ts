@@ -9,7 +9,7 @@ export class ReferencingProvider implements IReferencingProvider {
   provider: Collection<IReferencing>;
 
   constructor(private readonly claimProvider: IMongoDbClaimProvider) {
-    this.provider = this.claimProvider.db('operations').collection('referencing')
+    this.provider = this.claimProvider.db('operations').collection('referencings')
   }
 }
 

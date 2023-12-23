@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param, Post, UseGuards} from '@nestjs/common';
+import {Body, Controller, Get, Param, Post, Request, UseGuards} from '@nestjs/common';
 
 import {AppService} from '../service/app.service';
 import {CreateClaimDto, TCreateClaim} from "@store-apis/domains/claim";
@@ -8,6 +8,8 @@ import {UserRecord} from "firebase-admin/lib/auth";
 import {CreateInsiderDto} from "../dto/insider.dto";
 import {AuthGuard} from "@store-apis/repositories/auth";
 import {GCPLogging} from "@store-apis/repositories/shared";
+import {IEmployee} from "@store-apis/domains/employee";
+import {IStore} from "@store-apis/domains/shared";
 
 @Controller('v1/')
 export class AppController {
@@ -15,7 +17,7 @@ export class AppController {
   }
 
   @Post('/claim')
-  async postClaim(@Body() createClaimDto: CreateClaimDto, @RealIP() ipAddress: string) {
+  async postClaim(@Request() _request: Request, @Body() createClaimDto: CreateClaimDto, @RealIP() ipAddress: string) {
     const claim: TCreateClaim & {
       readonly id: string;
       readonly createdAt: number;
@@ -37,14 +39,28 @@ export class AppController {
   @Get('/insider/:phoneNumber')
   @UseGuards(AuthGuard)
   @GCPLogging
-  async getInsider(@Param('phoneNumber') phoneNumber: string): Promise<UserRecord> {
+  async getInsider(@Request() _request: Request, @Param('phoneNumber') phoneNumber: string): Promise<UserRecord> {
     return this.appService.getInsider(phoneNumber);
   }
 
   @Post('/insider')
   @UseGuards(AuthGuard)
   @GCPLogging
-  async postInsider(@Body() {phoneNumber}: CreateInsiderDto): Promise<UserRecord> {
+  async postInsider(@Request() _request: Request, @Body() {phoneNumber}: CreateInsiderDto): Promise<UserRecord> {
     return this.appService.createInsider(phoneNumber);
+  }
+
+  @Get('/employee/me')
+  @UseGuards(AuthGuard)
+  @GCPLogging
+  async getStoreEmployee(@Request() _request: Request): Promise<IEmployee> {
+    return this.appService.getStoreEmployee(_request['user'].sub)
+  }
+
+  @Get('/store/:alias')
+  @UseGuards(AuthGuard)
+  @GCPLogging
+  async getStoreConfig(@Request() _request: Request, @Param('alias') alias: string): Promise<IStore> {
+    return this.appService.getStoreConfig(alias);
   }
 }
