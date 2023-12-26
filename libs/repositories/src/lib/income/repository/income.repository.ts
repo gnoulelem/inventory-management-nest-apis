@@ -12,4 +12,22 @@ export class IncomeRepository implements IIncomeRepository {
   create(entityLike: IIncome): Promise<InsertOneResult<IIncome>> {
     return this.incomeProvider.provider.insertOne(entityLike)
   }
+
+  retrievePerDate(storeId: string, date: string): Promise<IIncome[]> {
+    const dateObject = new Date(date);
+    dateObject.setHours(0, 0, 0, 0);
+
+    const timestamp = dateObject.getTime();
+    return this.incomeProvider
+      .provider
+      .find({
+        storeId: storeId,
+        createdAt: {
+          $gte: timestamp,
+          $lt: dateObject.getTime() + 24 * 60 * 60 * 1000, // Add one day to the specific date
+        },
+      })
+      .sort({createdAt: -1})
+      .toArray();
+  }
 }

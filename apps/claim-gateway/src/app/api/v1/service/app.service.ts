@@ -75,6 +75,10 @@ export class AppService {
     return this.employeeRepository.getMe(uid);
   }
 
+  async getIncomePerDate(storeId: string, date: string): Promise<Income[]> {
+    return this.incomeRepository.retrievePerDate(storeId, date)
+  }
+
   async getStoreConfig(storeAlias: string): Promise<IStore> {
     return this.configurationRepository.getStoreConfig(storeAlias)
   }

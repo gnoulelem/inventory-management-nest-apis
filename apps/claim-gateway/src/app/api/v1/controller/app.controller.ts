@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param, Post, Request, UseGuards} from '@nestjs/common';
+import {Body, Controller, Get, Param, Post, Query, Request, UseGuards} from '@nestjs/common';
 
 import {AppService} from '../service/app.service';
 import {CreateClaimDto, TCreateClaim} from "@store-apis/domains/claim";
@@ -10,6 +10,7 @@ import {AuthGuard} from "@store-apis/repositories/auth";
 import {GCPLogging} from "@store-apis/repositories/shared";
 import {IEmployee} from "@store-apis/domains/employee";
 import {IStore} from "@store-apis/domains/shared";
+import {IIncome} from "@store-apis/domains/income";
 
 @Controller('v1/')
 export class AppController {
@@ -62,5 +63,16 @@ export class AppController {
   @GCPLogging
   async getStoreConfig(@Request() _request: Request, @Param('alias') alias: string): Promise<IStore> {
     return this.appService.getStoreConfig(alias);
+  }
+
+  @Get('/income')
+  @UseGuards(AuthGuard)
+  @GCPLogging
+  async getIncomePerDay(
+    @Request() _request: Request,
+    @Query('storeId') storeId: string,
+    @Query('date') date: string
+  ): Promise<IIncome[]> {
+    return this.appService.getIncomePerDate(storeId, date);
   }
 }
