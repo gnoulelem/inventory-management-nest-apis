@@ -6,5 +6,7 @@ export abstract class IBillRepository {
 
   abstract insertBillItem(entityLike: IBillItem, bill: Bill, period: string): Promise<UpdateResult<IBill>>
 
-  abstract findBill(period: string): Promise<IBill>
+  abstract findBillByPeriod(period: string): Promise<IBill>
+
+  abstract findBills(storeId: string): Promise<IBill[]>
 }

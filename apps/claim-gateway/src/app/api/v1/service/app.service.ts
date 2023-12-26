@@ -6,7 +6,7 @@ import {IClaim, TCreateClaim} from "@store-apis/domains/claim";
 import {
   IClaimRepository
 } from "@store-apis/repositories/claim";
-import {Bill, BillItem} from "@store-apis/domains/bill";
+import {Bill, BillItem, IBill} from "@store-apis/domains/bill";
 import {IBillRepository} from "@store-apis/repositories/bill";
 import {Income} from "@store-apis/domains/income";
 import {IReferencing} from "@store-apis/domains/referencing";
@@ -81,6 +81,10 @@ export class AppService {
 
   async getStoreConfig(storeAlias: string): Promise<IStore> {
     return this.configurationRepository.getStoreConfig(storeAlias)
+  }
+
+  async getBills(storeId: string): Promise<IBill[]> {
+    return this.billRepository.findBills(storeId)
   }
 
   private async getInsiderReferencing(insiderId: string): Promise<IReferencing> {

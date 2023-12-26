@@ -11,6 +11,7 @@ import {GCPLogging} from "@store-apis/repositories/shared";
 import {IEmployee} from "@store-apis/domains/employee";
 import {IStore} from "@store-apis/domains/shared";
 import {IIncome} from "@store-apis/domains/income";
+import {IBill} from "@store-apis/domains/bill";
 
 @Controller('v1/')
 export class AppController {
@@ -74,5 +75,15 @@ export class AppController {
     @Query('date') date: string
   ): Promise<IIncome[]> {
     return this.appService.getIncomePerDate(storeId, date);
+  }
+
+  @Get('/bills')
+  @UseGuards(AuthGuard)
+  @GCPLogging
+  async getBills(
+    @Request() _request: Request,
+    @Query('storeId') storeId: string,
+  ): Promise<IBill[]> {
+    return this.appService.getBills(storeId);
   }
 }

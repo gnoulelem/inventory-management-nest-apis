@@ -14,14 +14,18 @@ export class BillRepository implements IBillRepository {
   }
 
   async insertBillItem(entityLike: IBillItem, bill: Bill, period: string): Promise<UpdateResult<IBill>> {
-    const currentBill = await this.findBill(period);
+    const currentBill = await this.findBillByPeriod(period);
     if (currentBill == null) {
       await this.createBill(bill)
     }
     return this.billProvider.provider.updateOne({period}, {$push: {items: entityLike}})
   }
 
-  findBill(period: string): Promise<WithId<IBill>> {
+  findBillByPeriod(period: string): Promise<WithId<IBill>> {
     return this.billProvider.provider.findOne({period})
+  }
+
+  findBills(storeId: string): Promise<IBill[]> {
+    return this.billProvider.provider.find({storeId}).toArray()
   }
 }
