@@ -15,3 +15,19 @@ services:
     working_dir: /store-apis
     volumes:
       - ./:/store-apis
+
+  claim-gateway:
+    image: node:18-alpine
+    env_file:
+      - .env
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: us-east-1
+        awslogs-group: quid-dev-log-group-store-apis-us-east-1
+    command: sh -c "cd dist/apps/claim-gateway && node main"
+    ports:
+      - 3007:3007
+    working_dir: /store-apis
+    volumes:
+      - ./:/store-apis
