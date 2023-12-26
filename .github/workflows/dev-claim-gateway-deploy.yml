@@ -1,0 +1,87 @@
+name: Dev Claim Gateway Deploy
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '18.x'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install yarn
+        run: npm install -g yarn
+
+      - name: Install npm dependencies
+        run: yarn
+
+      - name: Build claim-gateway
+        run: yarn build claim-gateway
+
+      - name: Create environment variables file
+        uses: SpicyPizza/create-envfile@v2.0
+        with:
+          envkey_DEBUG: true
+          envkey_FIREBASE_PROJECT_ID: ${{ secrets.DEV_FIREBASE_PROJECT_ID }}
+          envkey_FIREBASE_CLIENT_EMAIL: ${{ secrets.DEV_FIREBASE_CLIENT_EMAIL }}
+          envkey_FIREBASE_PRIVATE_KEY: ${{ secrets.DEV_FIREBASE_PRIVATE_KEY }}
+          envkey_MONGODB_STORE_CLUSTER_CONNECTION_STRING: ${{ secrets.DEV_MONGODB_STORE_CLUSTER_CONNECTION_STRING }}
+          envkey_INSIDERS_FIREBASE_PROJECT_ID: ${{ secrets.DEV_INSIDERS_FIREBASE_PROJECT_ID }}
+          envkey_INSIDERS_FIREBASE_CLIENT_EMAIL: ${{ secrets.DEV_INSIDERS_FIREBASE_CLIENT_EMAIL }}
+          envkey_INSIDERS_FIREBASE_PRIVATE_KEY: ${{ secrets.DEV_INSIDERS_FIREBASE_PRIVATE_KEY }}
+          envkey_MONGODB_CLAIM_CLUSTER_CONNECTION_STRING: ${{ secrets.DEV_MONGODB_CLAIM_CLUSTER_CONNECTION_STRING }}
+          envkey_AWS_REGION: ${{ secrets.DEV_AWS_REGION }}
+          file_name: .env
+
+      - name: Create artifact folder
+        run: |
+          mkdir artifact &&
+          mv "node_modules" "artifact/node_modules" &&
+          mv "dist" "artifact/dist" &&
+          mv "dev.docker-compose.yml" "artifact" &&
+          mv ".env" "artifact"
+
+      - name: Create artifact zip archive
+        run: zip artifact.zip -r artifact
+
+      - name: Copy artifact archive to server
+        uses: cross-the-world/ssh-scp-ssh-pipelines@v1.1.4
+        with:
+          host: ${{ secrets.DEV_SERVER_HOST }}
+          port: ${{ secrets.DEV_SERVER_PORT }}
+          user: ${{ secrets.DEV_SERVER_USER }}
+          key: ${{ secrets.DEV_SERVER_KEY }}
+          scp: |
+            ./artifact.zip => /home/ubuntu/artifacts/claim-gateway/
+
+      - name: Start server
+        uses: nekiro/ssh-job@v1.0.3
+        with:
+          host: ${{ secrets.DEV_SERVER_HOST }}
+          port: ${{ secrets.DEV_SERVER_PORT }}
+          user: ${{ secrets.DEV_SERVER_USER }}
+          key: ${{ secrets.DEV_SERVER_KEY }}
+          command: |
+            cd /home/ubuntu/apps/claim-gateway/artifact
+            sudo docker compose -f dev.docker-compose.yml down claim-gateway
+            cd ..
+            rm -rf artifact
+            cd /home/ubuntu/artifacts/claim-gateway
+            unzip artifact.zip -d /home/ubuntu/apps/claim-gateway
+            cd /home/ubuntu/apps/claim-gateway/artifact
+            sudo docker compose -f dev.docker-compose.yml up -d claim-gateway
+
+
