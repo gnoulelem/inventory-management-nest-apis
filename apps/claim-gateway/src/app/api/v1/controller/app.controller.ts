@@ -1,7 +1,7 @@
 import {Body, Controller, Get, Param, Post, Query, Request, UseGuards} from '@nestjs/common';
 
 import {AppService} from '../service/app.service';
-import {CreateClaimDto, TCreateClaim} from "@store-apis/domains/claim";
+import {CreateClaimDto, IClaim, TCreateClaim} from "@store-apis/domains/claim";
 import {RealIP} from "nestjs-real-ip";
 import {v4 as uuidV4} from "uuid";
 import {UserRecord} from "firebase-admin/lib/auth";
@@ -85,5 +85,16 @@ export class AppController {
     @Query('storeId') storeId: string,
   ): Promise<IBill[]> {
     return this.appService.getBills(storeId);
+  }
+
+  @Get('/claim')
+  @UseGuards(AuthGuard)
+  @GCPLogging
+  async getClaimPerDay(
+    @Request() _request: Request,
+    @Query('storeId') storeId: string,
+    @Query('date') date: string
+  ): Promise<IClaim[]> {
+    return this.appService.getIClaimPerDate(storeId, date);
   }
 }

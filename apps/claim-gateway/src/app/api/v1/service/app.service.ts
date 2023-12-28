@@ -79,6 +79,10 @@ export class AppService {
     return this.incomeRepository.retrievePerDate(storeId, date)
   }
 
+  async getIClaimPerDate(storeId: string, date: string): Promise<IClaim[]> {
+    return this.claimRepository.retrievePerDate(storeId, date)
+  }
+
   async getStoreConfig(storeAlias: string): Promise<IStore> {
     return this.configurationRepository.getStoreConfig(storeAlias)
   }
