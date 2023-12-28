@@ -63,35 +63,39 @@ export class AppService {
     ])
   }
 
-  async getInsider(phoneNumber: string): Promise<UserRecord> {
+  getInsider(phoneNumber: string): Promise<UserRecord> {
     return this.insiderRepository.retrieveInsiderByPhoneNumber(phoneNumber)
   }
 
-  async createInsider(phoneNumber: string): Promise<UserRecord> {
+  createInsider(phoneNumber: string): Promise<UserRecord> {
     return this.insiderRepository.createInsider({phoneNumber})
   }
 
-  async getStoreEmployee(uid: string): Promise<IEmployee> {
+  getStoreEmployee(uid: string): Promise<IEmployee> {
     return this.employeeRepository.getMe(uid);
   }
 
-  async getIncomePerDate(storeId: string, date: string): Promise<Income[]> {
+  getIncomePerDate(storeId: string, date: string): Promise<Income[]> {
     return this.incomeRepository.retrievePerDate(storeId, date)
   }
 
-  async getIClaimPerDate(storeId: string, date: string): Promise<IClaim[]> {
+  getIClaimPerDate(storeId: string, date: string): Promise<IClaim[]> {
     return this.claimRepository.retrievePerDate(storeId, date)
   }
 
-  async getStoreConfig(storeAlias: string): Promise<IStore> {
+  getStoreConfig(storeAlias: string): Promise<IStore> {
     return this.configurationRepository.getStoreConfig(storeAlias)
   }
 
-  async getBills(storeId: string): Promise<IBill[]> {
+  getBills(storeId: string): Promise<IBill[]> {
     return this.billRepository.findBills(storeId)
   }
 
-  private async getInsiderReferencing(insiderId: string): Promise<IReferencing> {
+  getBalances(storeId: string): Promise<{ latent: number; effective: number }> {
+    return this.incomeRepository.retrieveBalances(storeId)
+  }
+
+  private getInsiderReferencing(insiderId: string): Promise<IReferencing> {
     return this.referencingRepository.findByInsider(insiderId);
   }
 }

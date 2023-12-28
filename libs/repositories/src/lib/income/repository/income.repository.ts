@@ -30,4 +30,35 @@ export class IncomeRepository implements IIncomeRepository {
       .sort({createdAt: -1})
       .toArray();
   }
+
+  async retrieveBalances(storeId: string): Promise<{ latent: number; effective: number }> {
+    const [latentSum, effectiveSum] = await Promise.all([
+      this.incomeProvider.provider.aggregate([
+        {
+          $match: {storeId: storeId, state: "LATENT"}
+        },
+        {
+          $group: {
+            _id: storeId,
+            total: {$sum: "$amount"}
+          }
+        }
+      ]).toArray(),
+      this.incomeProvider.provider.aggregate([
+        {
+          $match: {storeId: storeId, state: "EFFECTIVE"}
+        },
+        {
+          $group: {
+            _id: storeId,
+            total: {$sum: "$amount"}
+          }
+        }
+      ]).toArray()
+    ]);
+    return {
+      latent: latentSum.length > 0 ? latentSum[0].total : 0,
+      effective: effectiveSum.length > 0 ? effectiveSum[0].total : 0
+    }
+  }
 }

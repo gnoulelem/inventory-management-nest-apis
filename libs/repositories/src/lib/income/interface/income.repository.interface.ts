@@ -5,4 +5,6 @@ export abstract class IIncomeRepository {
   abstract create(entityLike: IIncome): Promise<InsertOneResult<IIncome>>;
 
   abstract retrievePerDate(storeId: string, date: string): Promise<IIncome[]>;
+
+  abstract retrieveBalances(storeId: string): Promise<{ latent: number, effective: number }>
 }

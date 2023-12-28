@@ -97,4 +97,14 @@ export class AppController {
   ): Promise<IClaim[]> {
     return this.appService.getIClaimPerDate(storeId, date);
   }
+
+  @Get('/income/balances')
+  @UseGuards(AuthGuard)
+  @GCPLogging
+  async getBalances(
+    @Request() _request: Request,
+    @Query('storeId') storeId: string,
+  ): Promise<{ latent: number; effective: number }> {
+    return this.appService.getBalances(storeId);
+  }
 }
